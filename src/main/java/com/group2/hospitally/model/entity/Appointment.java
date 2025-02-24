@@ -13,4 +13,5 @@ public class Appointment {
     private String appointmentTime;
     private String appointmentStatus;
     private String appointmentCreatedAt;
+    private String appointmentUpdatedAt;
 }
