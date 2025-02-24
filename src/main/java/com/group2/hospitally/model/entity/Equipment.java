@@ -13,4 +13,5 @@ public class Equipment {
     private String equipmentStatus;
     private String assignedDepartment;
     private String equipmentCreatedAt;
+    private String equipmentUpdatedAt;
 }
