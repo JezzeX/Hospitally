@@ -28,7 +28,7 @@ public class MedicationRepositoryImpl implements MedicationRepository {
     @Override
     public Medication getMedicationByHospitalId(int hospitalId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId);
-        return jdbcTemplate.queryForObject(MedicationQuery.GET_MEDICATION_BY_HOSPITALID, parameterSource, new MedicationRowMapper());
+        return jdbcTemplate.queryForObject(MedicationQuery.GET_MEDICATION_BY_HOSPITAL_ID, parameterSource, new MedicationRowMapper());
     }
 
     @Override

@@ -32,6 +32,7 @@ public class MedicationController {
         Medication medication = medicationService.getMedicationById(medicationId);
         return new ResponseEntity<>(medication, HttpStatus.OK);
     }
+
     @GetMapping("/hospital/{hospitalId}/medication")
     public ResponseEntity<Medication> getMedicationByHospitalId(@PathVariable int hospitalId) {
         Medication medication = medicationService.getMedicationByHospitalId(hospitalId);
