@@ -8,9 +8,10 @@ import lombok.Data;
 public class Sale {
     private int saleId;
     private int medicationId;
-    private Integer patientId; // Nullable
+    private int patientId; // Nullable
     private int saleQuantity;
     private double saleTotalPrice;
     private String saleDate;
     private String saleCreatedAt;
+    private String saleUpdatedAt;
 }
