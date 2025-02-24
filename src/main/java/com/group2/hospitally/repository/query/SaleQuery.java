@@ -29,4 +29,8 @@ public class SaleQuery {
     public static final String DELETE_SALE_BY_ID = """
         DELETE FROM Sale WHERE saleId = :saleId
     """;
+
+    public static final String GET_SALE_BY_MEDICATION = "SELECT * FROM SALE WHERE medicationId = :medicationId";
+
+    public static final String GET_SALE_BY_PATIENT = "SELECT * FROM SALE WHERE patientId = :patientId";
 }

@@ -26,6 +26,18 @@ public class SaleRepositoryImpl implements SaleRepository {
     }
 
     @Override
+    public Sale getSaleByMedicationId(int medicationId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("medicationId", medicationId);
+        return jdbcTemplate.queryForObject(SaleQuery.GET_SALE_BY_MEDICATION, parameterSource, new SaleRowMapper());
+    }
+
+    @Override
+    public Sale getSaleByPatientId(int patientId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("patientId", patientId);
+        return jdbcTemplate.queryForObject(SaleQuery.GET_SALE_BY_PATIENT, parameterSource, new SaleRowMapper());
+    }
+
+    @Override
     public List<Sale> getAllSales() {
         return jdbcTemplate.query(SaleQuery.GET_ALL_SALES, new SaleRowMapper());
     }

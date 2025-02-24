@@ -27,6 +27,14 @@ public class SaleService {
         return saleRepository.getSaleById(saleId);
     }
 
+    public Sale getSaleByMedicationId(int medicationId) {
+        return saleRepository.getSaleByMedicationId(medicationId);
+    }
+
+    public Sale getSaleByPatientId(int patientId) {
+        return saleRepository.getSaleByPatientId(patientId);
+    }
+
     public Sale createSale(CreateSaleRequest request) {
         Gson gson = new Gson();
         Sale sale = gson.fromJson(gson.toJson(request), Sale.class);
