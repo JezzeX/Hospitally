@@ -33,6 +33,12 @@ public class EquipmentController {
         return new ResponseEntity<>(equipment, HttpStatus.OK);
     }
 
+    @GetMapping("/hospital/{hospitalId}/equipment")
+    public ResponseEntity<Equipment> getEquipmentByHospitalId(@PathVariable int hospitalId) {
+        Equipment equipment = equipmentService.getEquipmentByHospitalId(hospitalId);
+        return new ResponseEntity<>(equipment, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Equipment> createEquipment(@RequestBody CreateEquipmentRequest request) {
         Equipment equipment = equipmentService.createEquipment(request);

@@ -27,6 +27,10 @@ public class EquipmentService {
         return equipmentRepository.getEquipmentById(equipmentId);
     }
 
+    public Equipment getEquipmentByHospitalId(int hospitalId) {
+        return equipmentRepository.getEquipmentByHospitalId(hospitalId);
+    }
+
     public Equipment createEquipment(CreateEquipmentRequest request) {
         Gson gson = new Gson();
         Equipment equipment = gson.fromJson(gson.toJson(request), Equipment.class);
