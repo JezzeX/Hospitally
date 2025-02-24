@@ -27,6 +27,12 @@ public class MedicationService {
         return medicationRepository.getMedicationById(medicationId);
     }
 
+    public Medication getMedicationByHospitalId(int hospitalId) {
+        return medicationRepository.getMedicationByHospitalId(hospitalId);
+    }
+
+
+
     public Medication createMedication(CreateMedicationRequest request) {
         Gson gson = new Gson();
         Medication medication = gson.fromJson(gson.toJson(request), Medication.class);

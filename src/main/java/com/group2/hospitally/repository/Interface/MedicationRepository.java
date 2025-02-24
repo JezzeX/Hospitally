@@ -1,15 +1,15 @@
 package com.group2.hospitally.repository.Interface;
 
 import com.group2.hospitally.model.entity.Medication;
-import com.group2.hospitally.model.request.Medication.CreateMedicationRequest;
-import com.group2.hospitally.model.request.Medication.UpdateMedicationRequest;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 public interface MedicationRepository {
     // Get medication by ID
     Medication getMedicationById(int medicationId);
+
+    // Get medication by Hospital Id
+    Medication getMedicationByHospitalId(int hospitalId);
 
     // Get all medications
     List<Medication> getAllMedications();
