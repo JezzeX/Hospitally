@@ -15,4 +15,6 @@ public class Patient {
     private String patientAddress;
     private String patientMedicalHistory;
     private String patientCreatedAt;
+    private String patientUpdatedAt;
+    private String patientStatus;
 }
