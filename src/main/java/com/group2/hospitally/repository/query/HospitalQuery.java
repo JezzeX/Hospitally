@@ -3,7 +3,7 @@ package com.group2.hospitally.repository.query;
 public class HospitalQuery {
     public static final String INSERT_HOSPITAL = """
             INSERT INTO Hospital(hospitalName, hospitalAddress, hospitalPhoneNo, hospitalEmail, hospitalStatus, hospitalCreatedAt, hospitalUpdatedAt)
-            VALUES (:hospitalName, :hospitalAddress, :hospitalPhoneNo, :hospitalEmail, :hospitalStatus, NOW(), NOW())
+            VALUES (:hospitalName, :hospitalAddress, :hospitalPhoneNo, :hospitalEmail, :hospitalStatus, GETDATE(), GETDATE())
             """;
 
     public static final String GET_ALL_HOSPITALS = "SELECT * FROM Hospital";
@@ -17,7 +17,7 @@ public class HospitalQuery {
                 hospitalPhoneNo = :hospitalPhoneNo,
                 hospitalEmail = :hospitalEmail,
                 hospitalStatus = :hospitalStatus,
-                hospitalUpdatedAt = NOW()
+                hospitalUpdatedAt = GETDATE()
             WHERE hospitalId = :hospitalId
             """;
 

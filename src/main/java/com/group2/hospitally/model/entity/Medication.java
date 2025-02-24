@@ -12,5 +12,7 @@ public class Medication {
     private String medicationType;
     private int stockQuantity;
     private double medicationPrice;
+    private String medicationStatus;
     private String medicationCreatedAt;
+    private String medicationUpdatedAt;
 }
