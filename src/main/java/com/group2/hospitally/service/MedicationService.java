@@ -30,11 +30,11 @@ public class MedicationService {
         return medicationRepository.getMedicationById(medicationId);
     }
 
-    public Medication getMedicationByHospitalId(int hospitalId) {
+    public List<Medication> getMedicationByHospitalId(int hospitalId) {
         return medicationRepository.getMedicationByHospitalId(hospitalId);
     }
 
- public Medication getMedicationByType(int hospitalId, String medicationType) {
+ public List<Medication> getMedicationByType(int hospitalId, String medicationType) {
         return medicationRepository.getMedicationByType(hospitalId, medicationType);
     }
 
