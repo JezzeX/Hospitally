@@ -30,8 +30,21 @@ public class PatientRepositoryImpl implements PatientRepository {
     }
 
     @Override
+    public List<Patient> getPatientsByHospitalId(int hospitalId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId);
+        return jdbcTemplate.query(PatientQuery.GET_PATIENTS_BY_HOSPITAL_ID, parameterSource, new PatientRowMapper());
+    }
+
+    @Override
+    public List<Patient> getPatientsByStatus(String status) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("status", status);
+        return jdbcTemplate.query(PatientQuery.GET_PATIENTS_BY_STATUS, parameterSource, new PatientRowMapper());
+    }
+
+    @Override
     public Patient createPatient(Patient patient) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("hospitalId", patient.getHospitalId())
                 .addValue("patientName", patient.getPatientName())
                 .addValue("patientDob", patient.getPatientDob())
                 .addValue("patientGender", patient.getPatientGender())
@@ -41,8 +54,7 @@ public class PatientRepositoryImpl implements PatientRepository {
         int id = jdbcTemplate.update(PatientQuery.INSERT_PATIENT, parameterSource);
 
         // Retrieve and return the newly created patient
-        MapSqlParameterSource parameterSource2 = new MapSqlParameterSource("patientId", id);
-        return jdbcTemplate.queryForObject(PatientQuery.GET_PATIENT_BY_ID, parameterSource2, new PatientRowMapper());
+        return getPatientById(id);
     }
 
     @Override
@@ -54,10 +66,11 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .addValue("patientGender", patient.getPatientGender())
                 .addValue("patientContact", patient.getPatientContact())
                 .addValue("patientAddress", patient.getPatientAddress())
-                .addValue("patientMedicalHistory", patient.getPatientMedicalHistory());
-        jdbcTemplate.update(PatientQuery.UPDATE_PATIENT_BY_ID, parameterSource);
+                .addValue("patientMedicalHistory", patient.getPatientMedicalHistory())
+                .addValue("patientStatus", patient.getPatientStatus())
+                .addValue("patientUpdatedAt", patient.getPatientUpdatedAt());
 
-        // Retrieve and return the updated patient
+        jdbcTemplate.update(PatientQuery.UPDATE_PATIENT_BY_ID, parameterSource);
         return getPatientById(patient.getPatientId());
     }
 
