@@ -21,12 +21,14 @@ public class StaffController {
         this.staffService = staffService;
     }
 
+    // not needed
     @GetMapping
     public ResponseEntity<List<Staff>> getAllStaffs() {
         List<Staff> staffs = staffService.getAllStaffs();
         return new ResponseEntity<>(staffs, HttpStatus.OK);
     }
 
+    // get all the staffs of a specific hospital
     @GetMapping("/{staffId}")
     public ResponseEntity<Staff> getStaffById(@PathVariable int staffId) {
         Staff staff = staffService.getStaffById(staffId);

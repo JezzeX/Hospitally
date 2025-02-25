@@ -21,11 +21,16 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
+    // this is not needed
     @GetMapping
     public ResponseEntity<List<Appointment>> getAllAppointments() {
         List<Appointment> appointments = appointmentService.getAllAppointments();
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
+
+    // get all the appointments that are specific to a hospital
+
+    // get active appointments
 
     @GetMapping("/{appointmentId}")
     public ResponseEntity<Appointment> getAppointmentById(@PathVariable int appointmentId) {
@@ -33,18 +38,23 @@ public class AppointmentController {
         return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
 
+    // get appointments by patient
+
     @PostMapping("/create")
     public ResponseEntity<Appointment> createAppointment(@RequestBody CreateAppointmentRequest request) {
         Appointment appointment = appointmentService.createAppointment(request);
         return new ResponseEntity<>(appointment, HttpStatus.CREATED);
     }
 
+//    changing the update to reschedule
     @PutMapping("/update/{appointmentId}")
     public ResponseEntity<Appointment> updateAppointment(@PathVariable int appointmentId, @RequestBody CreateAppointmentRequest request) {
         Appointment updatedAppointment = appointmentService.updateAppointment(appointmentId, request);
         return new ResponseEntity<>(updatedAppointment, HttpStatus.OK);
     }
 
+
+//    remove the delete and replace it with cancel
     @DeleteMapping("/delete/{appointmentId}")
     public ResponseEntity<String> deleteAppointment(@PathVariable int appointmentId) {
         appointmentService.deleteAppointmentById(appointmentId);

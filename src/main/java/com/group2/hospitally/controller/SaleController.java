@@ -22,6 +22,8 @@ public class SaleController {
     }
 
     @GetMapping
+
+    //not needed
     public ResponseEntity<List<Sale>> getAllSales() {
         List<Sale> sales = saleService.getAllSales();
         return new ResponseEntity<>(sales, HttpStatus.OK);
@@ -44,6 +46,8 @@ public class SaleController {
         Sale sale = saleService.getSaleByPatientId(patientId);
         return new ResponseEntity<>(sale, HttpStatus.OK);
     }
+
+    // sales specific to a hospital
 
     @PostMapping("/create")
     public ResponseEntity<Sale> createSale(@RequestBody CreateSaleRequest request) {

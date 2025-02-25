@@ -1,6 +1,7 @@
 package com.group2.hospitally.service;
 
 import com.google.gson.Gson;
+import com.group2.hospitally.model.entity.Hospital;
 import com.group2.hospitally.model.entity.Medication;
 import com.group2.hospitally.model.request.Medication.CreateMedicationRequest;
 import com.group2.hospitally.repository.Interface.MedicationRepository;
@@ -13,10 +14,12 @@ import java.util.List;
 public class MedicationService {
 
     private final MedicationRepository medicationRepository;
+    private final HospitalService hospitalService;
 
     @Autowired
-    public MedicationService(MedicationRepository medicationRepository) {
+    public MedicationService(MedicationRepository medicationRepository, HospitalService hospitalService) {
         this.medicationRepository = medicationRepository;
+        this.hospitalService = hospitalService;
     }
 
     public List<Medication> getAllMedications() {
@@ -31,9 +34,11 @@ public class MedicationService {
         return medicationRepository.getMedicationByHospitalId(hospitalId);
     }
 
-
-
     public Medication createMedication(CreateMedicationRequest request) {
+        Hospital hospital = hospitalService.getHospitalById(request.getHospitalId());
+        if (hospital == null) {
+           return null;
+        }
         Gson gson = new Gson();
         Medication medication = gson.fromJson(gson.toJson(request), Medication.class);
         return medicationRepository.createMedication(medication);

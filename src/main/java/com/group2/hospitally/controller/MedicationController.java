@@ -39,6 +39,13 @@ public class MedicationController {
         return new ResponseEntity<>(medication, HttpStatus.OK);
     }
 
+//    get medication by type
+    @GetMapping("/hospital/{hospitalId}/medication/{medicationType}")
+    public ResponseEntity<Medication> getMedicationByHospitalIdAndMedicationType(@PathVariable int hospitalId, @PathVariable String medicationType) {
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+
     @PostMapping("/create")
     public ResponseEntity<Medication> createMedication(@RequestBody CreateMedicationRequest request) {
         Medication medication = medicationService.createMedication(request);

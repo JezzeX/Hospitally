@@ -22,10 +22,14 @@ public class EquipmentController {
     }
 
     @GetMapping
+
+    // not needed
     public ResponseEntity<List<Equipment>> getAllEquipments() {
         List<Equipment> equipments = equipmentService.getAllEquipments();
         return new ResponseEntity<>(equipments, HttpStatus.OK);
     }
+
+    // get equipments that are specific to a hospital
 
     @GetMapping("/{equipmentId}")
     public ResponseEntity<Equipment> getEquipmentById(@PathVariable int equipmentId) {

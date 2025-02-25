@@ -21,11 +21,14 @@ public class PatientController {
         this.patientService = patientService;
     }
 
+    // not needed
     @GetMapping
     public ResponseEntity<List<Patient>> getAllPatients() {
         List<Patient> patients = patientService.getAllPatients();
         return new ResponseEntity<>(patients, HttpStatus.OK);
     }
+
+    // get all the patients that belong to a hospital
 
     @GetMapping("/{patientId}")
     public ResponseEntity<Patient> getPatientById(@PathVariable int patientId) {
