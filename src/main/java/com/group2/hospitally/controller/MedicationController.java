@@ -39,10 +39,10 @@ public class MedicationController {
         return new ResponseEntity<>(medication, HttpStatus.OK);
     }
 
-//    get medication by type
     @GetMapping("/hospital/{hospitalId}/medication/{medicationType}")
-    public ResponseEntity<Medication> getMedicationByHospitalIdAndMedicationType(@PathVariable int hospitalId, @PathVariable String medicationType) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity<Medication> getMedicationByType(@PathVariable int hospitalId ,@PathVariable String medicationType) {
+        Medication medication = medicationService.getMedicationByType(hospitalId,medicationType);
+        return new ResponseEntity<>(medication, HttpStatus.OK);
     }
 
 

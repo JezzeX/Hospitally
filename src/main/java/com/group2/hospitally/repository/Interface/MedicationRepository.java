@@ -11,6 +11,9 @@ public interface MedicationRepository {
     // Get medication by Hospital Id
     Medication getMedicationByHospitalId(int hospitalId);
 
+    // Get medication by Type
+    Medication getMedicationByType(int hospitalId, String medicationType);
+
     // Get all medications
     List<Medication> getAllMedications();
 

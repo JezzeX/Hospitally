@@ -34,6 +34,10 @@ public class MedicationService {
         return medicationRepository.getMedicationByHospitalId(hospitalId);
     }
 
+ public Medication getMedicationByType(int hospitalId, String medicationType) {
+        return medicationRepository.getMedicationByType(hospitalId, medicationType);
+    }
+
     public Medication createMedication(CreateMedicationRequest request) {
         Hospital hospital = hospitalService.getHospitalById(request.getHospitalId());
         if (hospital == null) {
