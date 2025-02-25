@@ -38,8 +38,8 @@ public class EquipmentController {
     }
 
     @GetMapping("/hospital/{hospitalId}/equipment")
-    public ResponseEntity<Equipment> getEquipmentByHospitalId(@PathVariable int hospitalId) {
-        Equipment equipment = equipmentService.getEquipmentByHospitalId(hospitalId);
+    public ResponseEntity<List<Equipment>> getEquipmentByHospitalId(@PathVariable int hospitalId) {
+        List<Equipment> equipment = equipmentService.getEquipmentByHospitalId(hospitalId);
         return new ResponseEntity<>(equipment, HttpStatus.OK);
     }
 

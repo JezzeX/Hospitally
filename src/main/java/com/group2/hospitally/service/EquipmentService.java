@@ -27,7 +27,7 @@ public class EquipmentService {
         return equipmentRepository.getEquipmentById(equipmentId);
     }
 
-    public Equipment getEquipmentByHospitalId(int hospitalId) {
+    public List<Equipment> getEquipmentByHospitalId(int hospitalId) {
         return equipmentRepository.getEquipmentByHospitalId(hospitalId);
     }
 

@@ -26,9 +26,9 @@ public class EquipmentRepositoryImpl implements EquipmentRepository {
     }
 
  @Override
-    public Equipment getEquipmentByHospitalId(int hospitalId) {
+    public List<Equipment> getEquipmentByHospitalId(int hospitalId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId);
-        return jdbcTemplate.queryForObject(EquipmentQuery.GET_EQUIPMENT_BY_HOSPITALID, parameterSource, new EquipmentRowMapper());
+        return jdbcTemplate.query(EquipmentQuery.GET_EQUIPMENT_BY_HOSPITALID, parameterSource, new EquipmentRowMapper());
     }
 
 

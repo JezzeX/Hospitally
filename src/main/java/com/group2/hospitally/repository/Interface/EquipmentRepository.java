@@ -9,7 +9,7 @@ public interface EquipmentRepository {
     Equipment getEquipmentById(int equipmentId);
 
     // Get medication by Hospital Id
-    Equipment getEquipmentByHospitalId(int hospitalId);
+    List<Equipment> getEquipmentByHospitalId(int hospitalId);
 
     // Get all equipment
     List<Equipment> getAllEquipments();
