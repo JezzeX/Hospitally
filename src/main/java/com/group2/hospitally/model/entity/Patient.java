@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Builder
-@AllArgsConstructor  // <-- Allows access to generated constructor
+@AllArgsConstructor
 @NoArgsConstructor
 public class Patient {
     private int patientId;

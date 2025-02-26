@@ -6,6 +6,8 @@ import com.group2.hospitally.model.entity.Patient;
 import com.group2.hospitally.mapper.PatientRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,7 +39,7 @@ public class PatientRepositoryImpl implements PatientRepository {
 
     @Override
     public List<Patient> getPatientsByStatus(String status) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource("status", status);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("patientStatus", status);
         return jdbcTemplate.query(PatientQuery.GET_PATIENTS_BY_STATUS, parameterSource, new PatientRowMapper());
     }
 
@@ -51,12 +53,16 @@ public class PatientRepositoryImpl implements PatientRepository {
                 .addValue("patientContact", patient.getPatientContact())
                 .addValue("patientAddress", patient.getPatientAddress())
                 .addValue("patientMedicalHistory", patient.getPatientMedicalHistory());
-        int id = jdbcTemplate.update(PatientQuery.INSERT_PATIENT, parameterSource);
 
-        // Retrieve and return the newly created patient
-        return getPatientById(id);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(PatientQuery.INSERT_PATIENT, parameterSource, keyHolder, new String[]{"patient_id"});
+
+        // Get the generated ID and set it in the patient object
+        int patientId = keyHolder.getKey().intValue();
+        patient.setPatientId(patientId);
+
+        return patient;
     }
-
     @Override
     public Patient updatePatient(Patient patient) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource()

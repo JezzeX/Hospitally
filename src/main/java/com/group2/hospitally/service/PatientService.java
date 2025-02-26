@@ -1,5 +1,6 @@
 package com.group2.hospitally.service;
 
+import com.group2.hospitally.model.entity.Hospital;
 import com.group2.hospitally.model.entity.Patient;
 import com.group2.hospitally.model.request.Patient.CreatePatientRequest;
 import com.group2.hospitally.model.request.Patient.UpdatePatientRequest;
@@ -13,10 +14,12 @@ import java.util.List;
 @Service
 public class PatientService {
     private final PatientRepository patientRepository;
+    private final HospitalService hospitalService;
 
     @Autowired
-    public PatientService(PatientRepository patientRepository) {
+    public PatientService(PatientRepository patientRepository, HospitalService hospitalService) {
         this.patientRepository = patientRepository;
+        this.hospitalService = hospitalService;
     }
     //Get all patients on the HMS
     public List<Patient> getAllPatients() {
@@ -36,9 +39,10 @@ public class PatientService {
     }
     //Create a new Patient
     public Patient createPatient(CreatePatientRequest request) {
-        // Gson gson = new Gson();
-        //Patient patient = gson.fromJson(gson.toJson(request), Patient.class);
-        //return patientRepository.createPatient(patient);
+        Hospital hospital = hospitalService.getHospitalById(request.getHospitalId());
+            if (hospital == null) {
+                throw new RuntimeException("Hospital with ID " + request.getHospitalId() + " does not exist.");
+            }
         Patient patient = new Patient();
         patient.setHospitalId(request.getHospitalId());
         patient.setPatientName(request.getPatientName());
@@ -53,6 +57,7 @@ public class PatientService {
 
         return patientRepository.createPatient(patient);
     }
+
     //Update an existing Patient
     public Patient updatePatient(int patientId, UpdatePatientRequest request) {
         // Retrieve the patient to check if it exists

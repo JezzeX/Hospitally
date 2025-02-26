@@ -4,12 +4,10 @@ import lombok.Data;
 
 @Data
 public class CreateStaffRequest {
+    private int hospitalId;
     private String staffName;
     private String staffRole;
     private String staffContact;
     private String staffDepartment;
-    private String staffCreatedAt;
-    private String staffUpdatedAt;
-    private String staffStatus;
 }
 

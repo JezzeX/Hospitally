@@ -9,16 +9,16 @@ import java.sql.SQLException;
 public class StaffRowMapper implements RowMapper<Staff> {
 
     @Override
-    public Staff mapRow(ResultSet rs, int rowNum) throws SQLException{
+    public Staff mapRow(ResultSet rs, int rowNum) throws SQLException {
         return Staff.builder()
                 .staffId(rs.getInt("staffId"))
                 .staffName(rs.getString("staffName"))
-                .staffContact("staffContact")
-                .staffRole("staffRole")
-                .staffDepartment("staffDepartment")
-                .staffStatus("staffStatus")
-                .staffCreatedAt("staffCreatedAt")
-                .staffUpdatedAt("staffUpdatedAt")
+                .staffContact(rs.getString("staffContact"))
+                .staffRole(rs.getString("staffRole"))
+                .staffDepartment(rs.getString("staffDepartment"))
+                .staffStatus(rs.getString("staffStatus"))
+                .staffCreatedAt(rs.getTimestamp("staffCreatedAt").toLocalDateTime())
+                .staffUpdatedAt(rs.getTimestamp("staffUpdatedAt").toLocalDateTime())
                 .build();
     }
 }

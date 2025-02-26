@@ -3,12 +3,12 @@ package com.group2.hospitally.repository.query;
 public class PatientQuery {
     // Insert a new patient
     public static final String INSERT_PATIENT = """
-    INSERT INTO Patient (hospitalId, patientName, patientDob, patientGender, patientContact, patientAddress,patientMedicalHistory, patientStatus, patientCreatedAt, patientUpdatedAt)
-    VALUES (:hospitalId, :patientName, :patientDob, :patientGender, :patientContact, :patientAddress,:patientMedicalHistory, 'Active', GETDATE(), GETDATE())""";
+    INSERT INTO Patient (hospitalId, patientName, patientDob, patientGender, patientContact, patientAddress,patientMedicalHistory)
+    VALUES (:hospitalId, :patientName, :patientDob, :patientGender, :patientContact, :patientAddress,:patientMedicalHistory)""";
 
     // Retrieve all patients on the HMS
     public static final String GET_ALL_PATIENTS =
-      "SELECT * FROM Patient WHERE status = 'Active'";
+      "SELECT * FROM Patient WHERE patientStatus = 'Active'";
 
     // Retrieve a single patient using their ID
     public static final String GET_PATIENT_BY_ID =
