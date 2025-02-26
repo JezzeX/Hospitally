@@ -6,6 +6,8 @@ import com.group2.hospitally.repository.Interface.HospitalRepository;
 import com.group2.hospitally.repository.query.HospitalQuery;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -38,11 +40,13 @@ public class HospitalRepositoryImpl implements HospitalRepository {
                 .addValue("hospitalPhoneNo", hospital.getHospitalPhoneNo())
                 .addValue("hospitalEmail", hospital.getHospitalEmail())
                 .addValue("hospitalStatus", hospital.getHospitalStatus());
-        int id = jdbcTemplate.update(HospitalQuery.INSERT_HOSPITAL, parameterSource);
 
-        // Retrieve and return the newly created hospital
-        MapSqlParameterSource parameterSource2 = new MapSqlParameterSource("hospitalId", id);
-        return jdbcTemplate.queryForObject(HospitalQuery.GET_HOSPITAL_BY_ID, parameterSource2, new HospitalRowMapper());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(HospitalQuery.INSERT_HOSPITAL, parameterSource, keyHolder, new String[]{"hospital_id"});
+
+        int hospitalId = keyHolder.getKey().intValue();
+        hospital.setHospitalId(hospitalId);
+        return hospital;
     }
 
     @Override

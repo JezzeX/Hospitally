@@ -17,8 +17,8 @@ public class AppointmentRowMapper implements RowMapper<Appointment> {
                 .appointmentDate(rs.getString("appointmentDate"))
                 .appointmentTime(rs.getString("appointmentTime"))
                 .appointmentStatus(rs.getString("appointmentStatus"))
-                .appointmentCreatedAt(rs.getString("appointmentCreatedAt"))
-                .appointmentUpdatedAt(rs.getString("appointmentUpdatedAt"))
+                .appointmentCreatedAt(rs.getTimestamp("appointmentCreatedAt").toLocalDateTime())
+                .appointmentUpdatedAt(rs.getTimestamp("appointmentUpdatedAt").toLocalDateTime())
                 .build();
     }
 }

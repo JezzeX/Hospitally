@@ -17,8 +17,8 @@ public class HospitalRowMapper implements RowMapper<Hospital> {
                 .hospitalPhoneNo(rs.getString("hospitalPhoneNo"))
                 .hospitalEmail(rs.getString("hospitalEmail"))
                 .hospitalStatus(rs.getString("hospitalStatus"))
-                .hospitalCreatedAt(rs.getString("hospitalCreatedAt"))
-                .hospitalUpdatedAt(rs.getString("hospitalUpdatedAt"))
+                .hospitalCreatedAt(rs.getTimestamp("hospitalCreatedAt").toLocalDateTime())
+                .hospitalUpdatedAt(rs.getTimestamp("hospitalUpdatedAt").toLocalDateTime())
                 .build();
     }
 }
