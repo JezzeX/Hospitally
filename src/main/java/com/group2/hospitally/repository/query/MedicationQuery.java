@@ -25,4 +25,6 @@ public class MedicationQuery {
     public static final String DELETE_MEDICATION_BY_ID = "DELETE FROM Medication WHERE medicationId = :medicationId";
 
     public static final String GET_MEDICATION_BY_HOSPITAL_ID = "SELECT * FROM Medication WHERE hospitalId = :hospitalId";
+
+    public static final String GET_MEDICATION_BY_TYPE = "SELECT * FROM Medication WHERE medicationType = :medicationType AND hospitalId = :hospitalId";
 }

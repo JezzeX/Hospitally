@@ -16,9 +16,9 @@ public class SaleRowMapper implements RowMapper<Sale> {
                 .patientId(rs.getInt("patientId"))
                 .saleQuantity(rs.getInt("saleQuantity"))
                 .saleTotalPrice(rs.getDouble("saleTotalPrice"))
-                .saleDate(rs.getString("saleDate"))
-                .saleCreatedAt(rs.getString("saleCreatedAt"))
-                .saleUpdatedAt(rs.getString("saleUpdatedAt"))
+                .saleDate(rs.getDate("saleDate").toLocalDate())
+                .saleCreatedAt(rs.getTimestamp("saleCreatedAt").toLocalDateTime())
+                .saleUpdatedAt(rs.getTimestamp("saleUpdatedAt").toLocalDateTime())
                 .build();
     }
 }

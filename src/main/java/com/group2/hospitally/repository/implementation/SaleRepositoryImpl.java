@@ -3,9 +3,12 @@ package com.group2.hospitally.repository.implementation;
 import com.group2.hospitally.mapper.SaleRowMapper;
 import com.group2.hospitally.model.entity.Sale;
 import com.group2.hospitally.repository.Interface.SaleRepository;
+import com.group2.hospitally.repository.query.MedicationQuery;
 import com.group2.hospitally.repository.query.SaleQuery;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,15 +29,21 @@ public class SaleRepositoryImpl implements SaleRepository {
     }
 
     @Override
-    public Sale getSaleByMedicationId(int medicationId) {
+    public List<Sale> getSaleByMedicationId(int medicationId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("medicationId", medicationId);
-        return jdbcTemplate.queryForObject(SaleQuery.GET_SALE_BY_MEDICATION, parameterSource, new SaleRowMapper());
+        return jdbcTemplate.query(SaleQuery.GET_SALE_BY_MEDICATION, parameterSource, new SaleRowMapper());
     }
 
     @Override
-    public Sale getSaleByPatientId(int patientId) {
+    public List<Sale> getSaleByPatientId(int patientId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("patientId", patientId);
-        return jdbcTemplate.queryForObject(SaleQuery.GET_SALE_BY_PATIENT, parameterSource, new SaleRowMapper());
+        return jdbcTemplate.query(SaleQuery.GET_SALE_BY_PATIENT, parameterSource, new SaleRowMapper());
+    }
+
+    @Override
+    public List<Sale> getSaleByHospital(int hospitalId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId);
+        return jdbcTemplate.query(SaleQuery.GET_SALE_BY_HOSPITAL_ID, parameterSource, new SaleRowMapper());
     }
 
     @Override
@@ -50,9 +59,14 @@ public class SaleRepositoryImpl implements SaleRepository {
                 .addValue("saleQuantity", sale.getSaleQuantity())
                 .addValue("saleTotalPrice", sale.getSaleTotalPrice());
 
-        jdbcTemplate.update(SaleQuery.INSERT_SALE, parameterSource);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(SaleQuery.INSERT_SALE, parameterSource, keyHolder, new String[]{"saleId"});
 
-        return sale; // You might want to fetch and return the newly created Sale object.
+        // Get the generated ID and set it in the patient object
+        int saleId = keyHolder.getKey().intValue();
+        sale.setSaleId(saleId);
+
+        return sale;
     }
 
     @Override

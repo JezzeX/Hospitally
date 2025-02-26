@@ -2,6 +2,7 @@ package com.group2.hospitally.controller;
 
 import com.group2.hospitally.model.entity.Medication;
 import com.group2.hospitally.model.request.Medication.CreateMedicationRequest;
+import com.group2.hospitally.model.request.Medication.UpdateMedicationRequest;
 import com.group2.hospitally.service.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,26 +35,26 @@ public class MedicationController {
     }
 
     @GetMapping("/hospital/{hospitalId}/medication")
-    public ResponseEntity<Medication> getMedicationByHospitalId(@PathVariable int hospitalId) {
-        Medication medication = medicationService.getMedicationByHospitalId(hospitalId);
+    public ResponseEntity<List<Medication>> getMedicationByHospitalId(@PathVariable int hospitalId) {
+        List<Medication> medication = medicationService.getMedicationByHospitalId(hospitalId);
         return new ResponseEntity<>(medication, HttpStatus.OK);
     }
 
-//    get medication by type
     @GetMapping("/hospital/{hospitalId}/medication/{medicationType}")
-    public ResponseEntity<Medication> getMedicationByHospitalIdAndMedicationType(@PathVariable int hospitalId, @PathVariable String medicationType) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    public ResponseEntity <List<Medication>> getMedicationByType(@PathVariable int hospitalId ,@PathVariable String medicationType) {
+        List<Medication> medication = medicationService.getMedicationByType(hospitalId,medicationType);
+        return new ResponseEntity<>(medication, HttpStatus.OK);
     }
 
 
-    @PostMapping("/create")
+    @PostMapping("/create-medication")
     public ResponseEntity<Medication> createMedication(@RequestBody CreateMedicationRequest request) {
         Medication medication = medicationService.createMedication(request);
         return new ResponseEntity<>(medication, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{medicationId}")
-    public ResponseEntity<Medication> updateMedication(@PathVariable int medicationId, @RequestBody CreateMedicationRequest request) {
+    public ResponseEntity<Medication> updateMedication(@PathVariable int medicationId, @RequestBody UpdateMedicationRequest request) {
         Medication updatedMedication = medicationService.updateMedication(medicationId, request);
         return new ResponseEntity<>(updatedMedication, HttpStatus.OK);
     }

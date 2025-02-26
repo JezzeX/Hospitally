@@ -6,6 +6,8 @@ import com.group2.hospitally.repository.Interface.MedicationRepository;
 import com.group2.hospitally.repository.query.MedicationQuery;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,9 +28,15 @@ public class MedicationRepositoryImpl implements MedicationRepository {
     }
 
     @Override
-    public Medication getMedicationByHospitalId(int hospitalId) {
+    public List<Medication> getMedicationByHospitalId(int hospitalId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId);
-        return jdbcTemplate.queryForObject(MedicationQuery.GET_MEDICATION_BY_HOSPITAL_ID, parameterSource, new MedicationRowMapper());
+        return jdbcTemplate.query(MedicationQuery.GET_MEDICATION_BY_HOSPITAL_ID, parameterSource, new MedicationRowMapper());
+    }
+
+    @Override
+    public List<Medication> getMedicationByType(int hospitalId, String medicationType) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId).addValue("medicationType", medicationType);
+        return jdbcTemplate.query(MedicationQuery.GET_MEDICATION_BY_TYPE, parameterSource, new MedicationRowMapper());
     }
 
     @Override
@@ -46,11 +54,15 @@ public class MedicationRepositoryImpl implements MedicationRepository {
                 .addValue("medicationPrice", medication.getMedicationPrice())
                 .addValue("medicationStatus", medication.getMedicationStatus());
 
-        int id = jdbcTemplate.update(MedicationQuery.INSERT_MEDICATION, parameterSource);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(MedicationQuery.INSERT_MEDICATION, parameterSource, keyHolder, new String[]{"medicationId"});
 
-        // Retrieve and return the newly created medication
-        MapSqlParameterSource parameterSource2 = new MapSqlParameterSource("medicationId", id);
-        return jdbcTemplate.queryForObject(MedicationQuery.GET_MEDICATION_BY_ID, parameterSource2, new MedicationRowMapper());
+        // Get the generated ID and set it in the patient object
+        int medicationId = keyHolder.getKey().intValue();
+        medication.setMedicationId(medicationId);
+
+        return medication;
+
     }
 
     @Override
@@ -66,7 +78,6 @@ public class MedicationRepositoryImpl implements MedicationRepository {
 
         jdbcTemplate.update(MedicationQuery.UPDATE_MEDICATION_BY_ID, parameterSource);
 
-        // Retrieve and return the updated medication
         return getMedicationById(medication.getMedicationId());
     }
 

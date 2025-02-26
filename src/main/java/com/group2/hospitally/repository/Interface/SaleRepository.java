@@ -9,10 +9,13 @@ public interface SaleRepository {
     Sale getSaleById(int saleId);
 
     // Get a sale by Medication ID
-    Sale getSaleByMedicationId(int medicationId);
+    List<Sale> getSaleByMedicationId(int medicationId);
 
 // Get a sale by Patient ID
-    Sale getSaleByPatientId(int patientId);
+    List<Sale> getSaleByPatientId(int patientId);
+
+// Get sale by Hospital
+    List<Sale> getSaleByHospital(int hospitalId);
 
     // Get all sales
     List<Sale> getAllSales();

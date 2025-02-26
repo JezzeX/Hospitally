@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import com.group2.hospitally.model.entity.Hospital;
 import com.group2.hospitally.model.entity.Medication;
 import com.group2.hospitally.model.request.Medication.CreateMedicationRequest;
+import com.group2.hospitally.model.request.Medication.UpdateMedicationRequest;
 import com.group2.hospitally.repository.Interface.MedicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,21 +32,37 @@ public class MedicationService {
         return medicationRepository.getMedicationById(medicationId);
     }
 
-    public Medication getMedicationByHospitalId(int hospitalId) {
+    public List<Medication> getMedicationByHospitalId(int hospitalId) {
         return medicationRepository.getMedicationByHospitalId(hospitalId);
     }
 
-    public Medication createMedication(CreateMedicationRequest request) {
-        Hospital hospital = hospitalService.getHospitalById(request.getHospitalId());
-        if (hospital == null) {
-           return null;
-        }
-        Gson gson = new Gson();
-        Medication medication = gson.fromJson(gson.toJson(request), Medication.class);
-        return medicationRepository.createMedication(medication);
+ public List<Medication> getMedicationByType(int hospitalId, String medicationType) {
+        return medicationRepository.getMedicationByType(hospitalId, medicationType);
     }
 
-    public Medication updateMedication(int medicationId, CreateMedicationRequest request) {
+    public Medication createMedication(CreateMedicationRequest request) {
+
+        Hospital hospital = hospitalService.getHospitalById(request.getHospitalId());
+        if (hospital == null) {
+            throw new RuntimeException("Hospital with ID " + request.getHospitalId() + " does not exist.");
+        }
+
+        Medication medication = new Medication();
+
+        medication.setHospitalId(request.getHospitalId());
+        medication.setMedicationName(request.getMedicationName());
+        medication.setMedicationType(request.getMedicationType());
+        medication.setMedicationStatus("Active");
+        medication.setStockQuantity(request.getStockQuantity());
+        medication.setMedicationCreatedAt(LocalDateTime.now());
+        medication.setMedicationUpdatedAt(LocalDateTime.now());
+
+        return medicationRepository.createMedication(medication);
+}
+
+
+
+    public Medication updateMedication(int medicationId, UpdateMedicationRequest request) {
         // Retrieve the medication to check if it exists
         Medication existingMedication = medicationRepository.getMedicationById(medicationId);
         if (existingMedication == null) {

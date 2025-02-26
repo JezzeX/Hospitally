@@ -2,6 +2,7 @@ package com.group2.hospitally.controller;
 
 import com.group2.hospitally.model.entity.Equipment;
 import com.group2.hospitally.model.request.Equipment.CreateEquipmentRequest;
+import com.group2.hospitally.model.request.Equipment.UpdateEquipmentRequest;
 import com.group2.hospitally.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,22 +39,23 @@ public class EquipmentController {
     }
 
     @GetMapping("/hospital/{hospitalId}/equipment")
-    public ResponseEntity<Equipment> getEquipmentByHospitalId(@PathVariable int hospitalId) {
-        Equipment equipment = equipmentService.getEquipmentByHospitalId(hospitalId);
+    public ResponseEntity<List<Equipment>> getEquipmentByHospitalId(@PathVariable int hospitalId) {
+        List<Equipment> equipment = equipmentService.getEquipmentByHospitalId(hospitalId);
         return new ResponseEntity<>(equipment, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/create-equipment")
     public ResponseEntity<Equipment> createEquipment(@RequestBody CreateEquipmentRequest request) {
         Equipment equipment = equipmentService.createEquipment(request);
         return new ResponseEntity<>(equipment, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{equipmentId}")
-    public ResponseEntity<Equipment> updateEquipment(@PathVariable int equipmentId, @RequestBody CreateEquipmentRequest request) {
+    public ResponseEntity<Equipment> updateEquipment(@PathVariable int equipmentId, @RequestBody UpdateEquipmentRequest request) {
         Equipment updatedEquipment = equipmentService.updateEquipment(equipmentId, request);
         return new ResponseEntity<>(updatedEquipment, HttpStatus.OK);
     }
+
 
     @DeleteMapping("/delete/{equipmentId}")
     public ResponseEntity<String> deleteEquipment(@PathVariable int equipmentId) {

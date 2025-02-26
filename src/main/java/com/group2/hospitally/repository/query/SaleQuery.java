@@ -11,8 +11,9 @@ public class SaleQuery {
     """;
 
     public static final String INSERT_SALE = """
-        INSERT INTO Sale (medicationId, patientId, saleQuantity, saleTotalPrice, saleDate, saleCreatedAt, saleUpdatedAt)
-        VALUES (:medicationId, :patientId, :saleQuantity, :saleTotalPrice, GETDATE(), GETDATE(), GETDATE())
+       INSERT INTO Sale (medicationId, patientId, saleQuantity, saleTotalPrice, saleDate, saleCreatedAt, saleUpdatedAt) VALUES (:medicationId, :patientId, :saleQuantity, :saleTotalPrice, GETDATE(), GETDATE(), GETDATE());                                                                                UPDATE Medication
+            SET stockQuantity = stockQuantity - :saleQuantity
+            WHERE medicationId = :medicationId;
     """;
 
     public static final String UPDATE_SALE_BY_ID = """
@@ -33,4 +34,12 @@ public class SaleQuery {
     public static final String GET_SALE_BY_MEDICATION = "SELECT * FROM SALE WHERE medicationId = :medicationId";
 
     public static final String GET_SALE_BY_PATIENT = "SELECT * FROM SALE WHERE patientId = :patientId";
+
+    public static final String GET_SALE_BY_HOSPITAL_ID = """
+        SELECT H.hospitalName, S.*
+        FROM Sale S
+        LEFT JOIN Medication M ON M.medicationId = S.medicationId
+        LEFT JOIN Hospital H ON M.hospitalId = H.hospitalId
+        WHERE H.hospitalId = :hospitalId
+    """;
 }

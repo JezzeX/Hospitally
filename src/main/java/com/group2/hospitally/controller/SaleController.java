@@ -36,20 +36,26 @@ public class SaleController {
     }
 
     @GetMapping("/medication/{medicationId}/sales")
-    public ResponseEntity<Sale> getSaleByMedicationId(@PathVariable int medicationId) {
-        Sale sale = saleService.getSaleByMedicationId(medicationId);
+    public ResponseEntity<List<Sale>> getSaleByMedicationId(@PathVariable int medicationId) {
+        List<Sale> sale = saleService.getSaleByMedicationId(medicationId);
         return new ResponseEntity<>(sale, HttpStatus.OK);
     }
 
     @GetMapping("/patient/{patientId}/sales")
-    public ResponseEntity<Sale> getSaleByPatientId(@PathVariable int patientId) {
-        Sale sale = saleService.getSaleByPatientId(patientId);
+    public ResponseEntity<List<Sale>> getSaleByPatientId(@PathVariable int patientId) {
+        List<Sale> sale = saleService.getSaleByPatientId(patientId);
         return new ResponseEntity<>(sale, HttpStatus.OK);
     }
 
     // sales specific to a hospital
+    @GetMapping("/hospital/{hospitalId}/sales")
+    public ResponseEntity<List<Sale>> getSaleByHospital(@PathVariable int hospitalId) {
+        List<Sale> sale = saleService.getSaleByHospital(hospitalId);
+        return new ResponseEntity<>(sale, HttpStatus.OK);
+    }
 
-    @PostMapping("/create")
+
+    @PostMapping("/create-sale")
     public ResponseEntity<Sale> createSale(@RequestBody CreateSaleRequest request) {
         Sale sale = saleService.createSale(request);
         return new ResponseEntity<>(sale, HttpStatus.CREATED);
