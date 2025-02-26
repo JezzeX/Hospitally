@@ -6,6 +6,8 @@ import com.group2.hospitally.repository.Interface.AppointmentRepository;
 import com.group2.hospitally.repository.query.AppointmentQuery;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,6 +33,18 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
+    public List<Appointment> getAppointmentsByPatientId(int patientId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("patientId", patientId);
+        return jdbcTemplate.query(AppointmentQuery.GET_APPOINTMENTS_BY_PATIENT_ID, parameterSource, new AppointmentRowMapper());
+    }
+
+    @Override
+    public List<Appointment> getAppointmentsByStaffId(int staffId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("staffId", staffId);
+        return jdbcTemplate.query(AppointmentQuery.GET_APPOINTMENTS_BY_STAFF_ID, parameterSource, new AppointmentRowMapper());
+    }
+
+    @Override
     public Appointment createAppointment(Appointment appointment) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("patientId", appointment.getPatientId())
@@ -39,11 +53,12 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                 .addValue("appointmentTime", appointment.getAppointmentTime())
                 .addValue("appointmentStatus", appointment.getAppointmentStatus());
 
-        int id = jdbcTemplate.update(AppointmentQuery.INSERT_APPOINTMENT, parameterSource);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(AppointmentQuery.INSERT_APPOINTMENT, parameterSource, keyHolder, new String[]{"appointment_id"} );
 
-        // Retrieve and return the newly created appointment
-        MapSqlParameterSource parameterSource2 = new MapSqlParameterSource("appointmentId", id);
-        return jdbcTemplate.queryForObject(AppointmentQuery.GET_APPOINTMENT_BY_ID, parameterSource2, new AppointmentRowMapper());
+        int appointmentId = keyHolder.getKey().intValue();
+        appointment.setAppointmentId(appointmentId);
+        return appointment;
     }
 
     @Override

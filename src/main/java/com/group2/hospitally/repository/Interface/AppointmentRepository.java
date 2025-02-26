@@ -10,6 +10,10 @@ public interface AppointmentRepository {
 
     List<Appointment> getAllAppointments();
 
+    List<Appointment> getAppointmentsByPatientId(int patientId);
+
+    List<Appointment> getAppointmentsByStaffId(int staffId);
+
     Appointment createAppointment(Appointment appointment);
 
     Appointment updateAppointment(Appointment appointment);

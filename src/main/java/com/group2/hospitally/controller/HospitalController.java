@@ -2,7 +2,9 @@ package com.group2.hospitally.controller;
 
 import com.group2.hospitally.model.entity.Hospital;
 import com.group2.hospitally.model.request.Hospital.CreateHospitalRequest;
+import com.group2.hospitally.model.request.Hospital.UpdateHospitalRequest;
 import com.group2.hospitally.service.HospitalService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +36,13 @@ public class HospitalController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Hospital> createHospital(@RequestBody CreateHospitalRequest request) {
+    public ResponseEntity<Hospital> createHospital(@RequestBody @Valid CreateHospitalRequest request) {
         Hospital hospital = hospitalService.createHospital(request);
         return new ResponseEntity<>(hospital, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{hospitalId}")
-    public ResponseEntity<Hospital> updateHospital(@PathVariable int hospitalId, @RequestBody CreateHospitalRequest request) {
+    public ResponseEntity<Hospital> updateHospital(@PathVariable int hospitalId, @RequestBody @Valid UpdateHospitalRequest request) {
         Hospital updatedHospital = hospitalService.updateHospital(hospitalId, request);
         return new ResponseEntity<>(updatedHospital, HttpStatus.OK);
     }

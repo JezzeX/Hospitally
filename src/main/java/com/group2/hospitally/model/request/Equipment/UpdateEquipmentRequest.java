@@ -1,5 +1,6 @@
 package com.group2.hospitally.model.request.Equipment;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data

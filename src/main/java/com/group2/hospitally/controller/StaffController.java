@@ -3,6 +3,7 @@ package com.group2.hospitally.controller;
 import com.group2.hospitally.model.entity.Staff;
 import com.group2.hospitally.model.request.Staff.CreateStaffRequest;
 import com.group2.hospitally.service.StaffService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +36,13 @@ public class StaffController {
         return new ResponseEntity<>(staff, HttpStatus.OK);
     }
     @PostMapping("/create")
-    public ResponseEntity<Staff> createStaff(@RequestBody CreateStaffRequest request) {
+    public ResponseEntity<Staff> createStaff(@RequestBody @Valid CreateStaffRequest request) {
         Staff staff = staffService.createStaff(request);
         return new ResponseEntity<>(staff, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{staffId}")
-    public ResponseEntity<Staff> updateStaff(@PathVariable int staffId, @RequestBody CreateStaffRequest request) {
+    public ResponseEntity<Staff> updateStaff(@PathVariable int staffId, @RequestBody @Valid CreateStaffRequest request) {
         Staff updatedStaff = staffService.updateStaff(staffId, request);
         return new ResponseEntity<>(updatedStaff, HttpStatus.OK);
     }

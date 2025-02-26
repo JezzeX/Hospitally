@@ -3,6 +3,7 @@ package com.group2.hospitally.controller;
 import com.group2.hospitally.model.entity.Equipment;
 import com.group2.hospitally.model.request.Equipment.CreateEquipmentRequest;
 import com.group2.hospitally.service.EquipmentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,13 +45,13 @@ public class EquipmentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Equipment> createEquipment(@RequestBody CreateEquipmentRequest request) {
+    public ResponseEntity<Equipment> createEquipment(@RequestBody @Valid CreateEquipmentRequest request) {
         Equipment equipment = equipmentService.createEquipment(request);
         return new ResponseEntity<>(equipment, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{equipmentId}")
-    public ResponseEntity<Equipment> updateEquipment(@PathVariable int equipmentId, @RequestBody CreateEquipmentRequest request) {
+    public ResponseEntity<Equipment> updateEquipment(@PathVariable int equipmentId, @RequestBody @Valid CreateEquipmentRequest request) {
         Equipment updatedEquipment = equipmentService.updateEquipment(equipmentId, request);
         return new ResponseEntity<>(updatedEquipment, HttpStatus.OK);
     }

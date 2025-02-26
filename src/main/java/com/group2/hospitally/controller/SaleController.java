@@ -3,6 +3,7 @@ package com.group2.hospitally.controller;
 import com.group2.hospitally.model.entity.Sale;
 import com.group2.hospitally.model.request.Sale.CreateSaleRequest;
 import com.group2.hospitally.service.SaleService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,13 +51,13 @@ public class SaleController {
     // sales specific to a hospital
 
     @PostMapping("/create")
-    public ResponseEntity<Sale> createSale(@RequestBody CreateSaleRequest request) {
+    public ResponseEntity<Sale> createSale(@RequestBody @Valid CreateSaleRequest request) {
         Sale sale = saleService.createSale(request);
         return new ResponseEntity<>(sale, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{saleId}")
-    public ResponseEntity<Sale> updateSale(@PathVariable int saleId, @RequestBody CreateSaleRequest request) {
+    public ResponseEntity<Sale> updateSale(@PathVariable int saleId, @RequestBody @Valid CreateSaleRequest request) {
         Sale updatedSale = saleService.updateSale(saleId, request);
         return new ResponseEntity<>(updatedSale, HttpStatus.OK);
     }
