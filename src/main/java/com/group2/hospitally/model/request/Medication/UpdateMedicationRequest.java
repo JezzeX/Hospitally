@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class UpdateMedicationRequest {
-    private int hospitalId;
     private String medicationName;
     private String medicationType;
     private int stockQuantity;

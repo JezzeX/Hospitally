@@ -4,8 +4,11 @@ import com.group2.hospitally.mapper.EquipmentRowMapper;
 import com.group2.hospitally.model.entity.Equipment;
 import com.group2.hospitally.repository.Interface.EquipmentRepository;
 import com.group2.hospitally.repository.query.EquipmentQuery;
+import com.group2.hospitally.repository.query.MedicationQuery;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,7 +31,7 @@ public class EquipmentRepositoryImpl implements EquipmentRepository {
  @Override
     public List<Equipment> getEquipmentByHospitalId(int hospitalId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId);
-        return jdbcTemplate.query(EquipmentQuery.GET_EQUIPMENT_BY_HOSPITALID, parameterSource, new EquipmentRowMapper());
+        return jdbcTemplate.query(EquipmentQuery.GET_EQUIPMENT_BY_HOSPITAL_ID, parameterSource, new EquipmentRowMapper());
     }
 
 
@@ -46,11 +49,14 @@ public class EquipmentRepositoryImpl implements EquipmentRepository {
                 .addValue("equipmentStatus", equipment.getEquipmentStatus())
                 .addValue("assignedDepartment", equipment.getAssignedDepartment());
 
-        int id = jdbcTemplate.update(EquipmentQuery.INSERT_EQUIPMENT, parameterSource);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(EquipmentQuery.INSERT_EQUIPMENT, parameterSource, keyHolder, new String[]{"equipmentId"});
 
-        // Retrieve and return the newly created equipment
-        MapSqlParameterSource parameterSource2 = new MapSqlParameterSource("equipmentId", id);
-        return jdbcTemplate.queryForObject(EquipmentQuery.GET_EQUIPMENT_BY_ID, parameterSource2, new EquipmentRowMapper());
+        // Get the generated ID and set it in the patient object
+        int equipmentId = keyHolder.getKey().intValue();
+        equipment.setEquipmentId(equipmentId);
+
+        return equipment;
     }
 
     @Override

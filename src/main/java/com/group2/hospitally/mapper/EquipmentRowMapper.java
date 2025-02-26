@@ -16,8 +16,8 @@ public class EquipmentRowMapper implements RowMapper<Equipment> {
                 .equipmentType(rs.getString("equipmentType"))
                 .equipmentStatus(rs.getString("equipmentStatus"))
                 .assignedDepartment(rs.getString("assignedDepartment"))
-                .equipmentCreatedAt(rs.getString("equipmentCreatedAt"))
-                .equipmentUpdatedAt(rs.getString("equipmentUpdatedAt"))
+                .equipmentCreatedAt(rs.getTimestamp("equipmentCreatedAt").toLocalDateTime())
+                .equipmentUpdatedAt(rs.getTimestamp("equipmentUpdatedAt").toLocalDateTime())
                 .build();
     }
 }

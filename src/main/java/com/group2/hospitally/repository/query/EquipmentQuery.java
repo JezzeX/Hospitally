@@ -35,5 +35,5 @@ public class EquipmentQuery {
         DELETE FROM Equipment WHERE equipmentId = :equipmentId
     """;
 
-    public static final String GET_EQUIPMENT_BY_HOSPITALID = "SELECT * FROM Equipment WHERE hospitalId = :hospitalId";
+    public static final String GET_EQUIPMENT_BY_HOSPITAL_ID = "SELECT * FROM Equipment WHERE hospitalId = :hospitalId";
 }

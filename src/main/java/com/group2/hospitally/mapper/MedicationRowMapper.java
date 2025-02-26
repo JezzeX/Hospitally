@@ -18,8 +18,8 @@ public class MedicationRowMapper implements RowMapper<Medication> {
                 .stockQuantity(rs.getInt("stockQuantity"))
                 .medicationPrice(rs.getDouble("medicationPrice"))
                 .medicationStatus(rs.getString("medicationStatus"))
-                .medicationCreatedAt(rs.getString("medicationCreatedAt"))
-                .medicationUpdatedAt(rs.getString("medicationUpdatedAt"))
+                .medicationCreatedAt(rs.getTimestamp("medicationCreatedAt").toLocalDateTime())
+                .medicationUpdatedAt(rs.getTimestamp("medicationUpdatedAt").toLocalDateTime())
                 .build();
     }
 }
