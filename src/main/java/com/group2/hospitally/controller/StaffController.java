@@ -35,6 +35,7 @@ public class StaffController {
         Staff staff = staffService.getStaffById(staffId);
         return new ResponseEntity<>(staff, HttpStatus.OK);
     }
+
     @PostMapping("/create")
     public ResponseEntity<Staff> createStaff(@RequestBody @Valid CreateStaffRequest request) {
         Staff staff = staffService.createStaff(request);

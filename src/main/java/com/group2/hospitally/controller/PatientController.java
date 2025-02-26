@@ -4,6 +4,7 @@ import com.group2.hospitally.model.entity.Patient;
 import com.group2.hospitally.model.request.Patient.CreatePatientRequest;
 import com.group2.hospitally.model.request.Patient.UpdatePatientRequest;
 import com.group2.hospitally.service.PatientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,14 +51,14 @@ public class PatientController {
     }
     // Create a new patient
     @PostMapping("/create")
-    public ResponseEntity<Patient> createPatient(@RequestBody CreatePatientRequest request) {
+    public ResponseEntity<Patient> createPatient(@RequestBody @Valid CreatePatientRequest request) {
         Patient patient = patientService.createPatient(request);
         return new ResponseEntity<>(patient, HttpStatus.CREATED);
     }
 
     // Update an existing patient
     @PutMapping("/update/{patientId}")
-    public ResponseEntity<Patient> updatePatient(@PathVariable int patientId, @RequestBody UpdatePatientRequest request) {
+    public ResponseEntity<Patient> updatePatient(@PathVariable int patientId, @RequestBody @Valid UpdatePatientRequest request) {
         Patient updatedPatient = patientService.updatePatient(patientId, request);
         return new ResponseEntity<>(updatedPatient, HttpStatus.OK);
     }
