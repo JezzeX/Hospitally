@@ -1,10 +1,16 @@
 package com.group2.hospitally.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Equipment {
     private int equipmentId;
     private int hospitalId;
@@ -12,5 +18,6 @@ public class Equipment {
     private String equipmentType;
     private String equipmentStatus;
     private String assignedDepartment;
-    private String equipmentCreatedAt;
+    private LocalDateTime equipmentCreatedAt;
+    private LocalDateTime equipmentUpdatedAt;
 }

@@ -3,6 +3,8 @@ package com.group2.hospitally.model.entity;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 public class Appointment {
@@ -12,5 +14,6 @@ public class Appointment {
     private String appointmentDate;
     private String appointmentTime;
     private String appointmentStatus;
-    private String appointmentCreatedAt;
+    private LocalDateTime appointmentCreatedAt;
+    private LocalDateTime appointmentUpdatedAt;
 }

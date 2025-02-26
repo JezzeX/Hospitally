@@ -2,8 +2,8 @@ package com.group2.hospitally.repository.query;
 
 public class HospitalQuery {
     public static final String INSERT_HOSPITAL = """
-            INSERT INTO Hospital(hospitalName, hospitalAddress, hospitalPhoneNo, hospitalEmail, hospitalStatus, hospitalCreatedAt, hospitalUpdatedAt)
-            VALUES (:hospitalName, :hospitalAddress, :hospitalPhoneNo, :hospitalEmail, :hospitalStatus, NOW(), NOW())
+            INSERT INTO Hospital(hospitalName, hospitalAddress, hospitalPhoneNo, hospitalEmail, hospitalCreatedAt, hospitalUpdatedAt)
+            VALUES (:hospitalName, :hospitalAddress, :hospitalPhoneNo, :hospitalEmail, GETDATE(), GETDATE())
             """;
 
     public static final String GET_ALL_HOSPITALS = "SELECT * FROM Hospital";
@@ -16,8 +16,7 @@ public class HospitalQuery {
                 hospitalAddress = :hospitalAddress,
                 hospitalPhoneNo = :hospitalPhoneNo,
                 hospitalEmail = :hospitalEmail,
-                hospitalStatus = :hospitalStatus,
-                hospitalUpdatedAt = NOW()
+                hospitalUpdatedAt = GETDATE()
             WHERE hospitalId = :hospitalId
             """;
 

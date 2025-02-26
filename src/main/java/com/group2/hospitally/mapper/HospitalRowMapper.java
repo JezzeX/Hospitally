@@ -13,12 +13,12 @@ public class HospitalRowMapper implements RowMapper<Hospital> {
         return Hospital.builder()
                 .hospitalId(rs.getInt("hospitalId"))
                 .hospitalName(rs.getString("hospitalName"))
-                .hospitalAddress("hospitalAddress")
-                .hospitalPhoneNo("hospitalPhoneNo")
-                .hospitalEmail("hospitalEmail")
-                .hospitalStatus("hospitalStatus")
-                .hospitalCreatedAt("hospitalCreatedAt")
-                .hospitalUpdatedAt("hospitalUpdatedAt")
+                .hospitalAddress(rs.getString("hospitalAddress"))
+                .hospitalPhoneNo(rs.getString("hospitalPhoneNo"))
+                .hospitalEmail(rs.getString("hospitalEmail"))
+                .hospitalStatus(rs.getString("hospitalStatus"))
+                .hospitalCreatedAt(rs.getTimestamp("hospitalCreatedAt").toLocalDateTime())
+                .hospitalUpdatedAt(rs.getTimestamp("hospitalUpdatedAt").toLocalDateTime())
                 .build();
     }
 }
