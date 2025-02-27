@@ -22,18 +22,24 @@ public class StaffController {
         this.staffService = staffService;
     }
 
-    // not needed
+    // get all staffs
     @GetMapping
     public ResponseEntity<List<Staff>> getAllStaffs() {
         List<Staff> staffs = staffService.getAllStaffs();
         return new ResponseEntity<>(staffs, HttpStatus.OK);
     }
 
-    // get all the staffs of a specific hospital
+    // get a specific staff by their id
     @GetMapping("/{staffId}")
     public ResponseEntity<Staff> getStaffById(@PathVariable int staffId) {
         Staff staff = staffService.getStaffById(staffId);
         return new ResponseEntity<>(staff, HttpStatus.OK);
+    }
+    //get staff by hospital id
+    @GetMapping("/by-hospital/{hospitalId}")
+    public ResponseEntity<List<Staff>> getStaffByHospitalId(@PathVariable int hospitalId) {
+        List<Staff> staffs = staffService.getStaffByHospitalId(hospitalId);
+        return new ResponseEntity<>(staffs, HttpStatus.OK);
     }
 
     @PostMapping("/create")

@@ -11,7 +11,8 @@ public interface StaffRepository {
     //get all staff on the hms
     List<Staff> getAllStaffs();
 
-
+    //get all staff in a hospital using hospital id
+    List<Staff> getStaffByHospitalId(int hospitalId);
 
     //Create a new staff on the hms
     Staff createStaff(Staff staff);

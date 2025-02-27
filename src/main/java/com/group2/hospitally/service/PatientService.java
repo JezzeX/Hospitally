@@ -6,7 +6,9 @@ import com.group2.hospitally.model.request.Patient.CreatePatientRequest;
 import com.group2.hospitally.model.request.Patient.UpdatePatientRequest;
 import com.group2.hospitally.repository.Interface.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,81 +23,114 @@ public class PatientService {
         this.patientRepository = patientRepository;
         this.hospitalService = hospitalService;
     }
+
     //Get all patients on the HMS
     public List<Patient> getAllPatients() {
-        return patientRepository.getAllPatients();
+        try {
+            return patientRepository.getAllPatients();
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error retrieving Patients", e);
+        }
     }
+
     //Get a single patient by their ID
     public Patient getPatientById(int patientId) {
-        return patientRepository.getPatientById(patientId);
+        try {
+            Patient patient = patientRepository.getPatientById(patientId);
+            if (patient == null) {
+                throw new RuntimeException("Patient with id " + patientId + " not found");
+            }
+            return patient;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error retrieving Patient with id " + patientId, e);
+        }
     }
+
     // Get all patients in a hospital by hospital ID
     public List<Patient> getPatientsByHospitalId(int hospitalId) {
-        return patientRepository.getPatientsByHospitalId(hospitalId);
+        try {
+            Hospital hospital = hospitalService.getHospitalById(hospitalId);
+            if (hospital == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hospital with id " + hospitalId + " not found");
+            }
+            return patientRepository.getPatientsByHospitalId(hospitalId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error retrieving Patients", e);
+        }
     }
-    // Get all current or deleted patients by status (Active/Inactive)
-    public List<Patient> getPatientsByStatus(String status) {
-        return patientRepository.getPatientsByStatus(status);
-    }
+
     //Create a new Patient
     public Patient createPatient(CreatePatientRequest request) {
-        Hospital hospital = hospitalService.getHospitalById(request.getHospitalId());
+        try {
+            Hospital hospital = hospitalService.getHospitalById(request.getHospitalId());
             if (hospital == null) {
-                throw new RuntimeException("Hospital with ID " + request.getHospitalId() + " does not exist.");
+                throw new RuntimeException("Hospital with ID " + request.getHospitalId() + " does not exist yet.");
             }
-        Patient patient = new Patient();
-        patient.setHospitalId(request.getHospitalId());
-        patient.setPatientName(request.getPatientName());
-        patient.setPatientDob(request.getPatientDob());
-        patient.setPatientGender(request.getPatientGender());
-        patient.setPatientContact(request.getPatientContact());
-        patient.setPatientAddress(request.getPatientAddress());
-        patient.setPatientMedicalHistory(request.getPatientMedicalHistory());
-        patient.setPatientStatus("Active");
-        patient.setPatientCreatedAt(LocalDateTime.now());
-        patient.setPatientUpdatedAt(LocalDateTime.now());
-
-        return patientRepository.createPatient(patient);
+            Patient patient = Patient.builder()
+                    .hospitalId(request.getHospitalId())
+                    .patientName(request.getPatientName())
+                    .patientDob(request.getPatientDob())
+                    .patientGender(request.getPatientGender())
+                    .patientContact(request.getPatientContact())
+                    .patientAddress(request.getPatientAddress())
+                    .patientMedicalHistory(request.getPatientMedicalHistory())
+                    .patientStatus("Active")
+                    .patientCreatedAt(LocalDateTime.now())
+                    .patientUpdatedAt(LocalDateTime.now())
+                    .build();
+            return patientRepository.createPatient(patient);
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Creating Patient", e);
+        }
     }
 
     //Update an existing Patient
     public Patient updatePatient(int patientId, UpdatePatientRequest request) {
-        // Retrieve the patient to check if it exists
-        Patient existingPatient = patientRepository.getPatientById(patientId);
-        if (existingPatient == null) {
-            throw new RuntimeException("Patient with ID " + patientId + " not found");
+        try {
+            // Retrieve the patient to check if it exists
+            Patient existingPatient = patientRepository.getPatientById(patientId);
+            if (existingPatient == null) {
+                throw new RuntimeException("Patient with ID " + patientId + " not found");
+            }
+            // Update the patient details if they exist
+            existingPatient.setPatientName(request.getPatientName());
+            existingPatient.setPatientAddress(request.getPatientAddress());
+            existingPatient.setPatientDob(request.getPatientDob());
+            existingPatient.setPatientGender(request.getPatientGender());
+            existingPatient.setPatientContact(request.getPatientContact());
+            existingPatient.setPatientMedicalHistory(request.getPatientMedicalHistory());
+            existingPatient.setPatientUpdatedAt(LocalDateTime.now());
+
+            // Save the updated patient
+            return patientRepository.updatePatient(existingPatient);
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Updating Patient", e);
         }
-
-        // Update the patient details if they exist
-        existingPatient.setPatientName(request.getPatientName());
-        existingPatient.setPatientAddress(request.getPatientAddress());
-        existingPatient.setPatientDob(request.getPatientDob());
-        existingPatient.setPatientGender(request.getPatientGender());
-        existingPatient.setPatientContact(request.getPatientContact());
-        existingPatient.setPatientMedicalHistory(request.getPatientMedicalHistory());
-        existingPatient.setPatientUpdatedAt(LocalDateTime.now());
-
-        // Save the updated patient
-        return patientRepository.updatePatient(existingPatient);
     }
+
     //Delete a patient (Changing their status)
     public void deletePatientById(int patientId) {
-      Patient existingPatient = getPatientById(patientId);
+        try {
+            Patient existingPatient = getPatientById(patientId);
 
-      // If the patient does not exist, throw an exception
-       if (existingPatient == null) {
-            throw new RuntimeException("Patient with ID " + patientId + " not found");
-      }
-      // Update the patient's status to "Inactive" to indicate a soft delete
-      existingPatient.setPatientStatus("Inactive");
-      existingPatient.setPatientUpdatedAt(LocalDateTime.now());
+            if (existingPatient == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient with ID " + patientId + " not found");
+            }
 
-      // Call the repository to update the patient's status in the database
-      int rowsAffected = patientRepository.deletePatientById(patientId);
+            // Soft delete: Update the patient's status to "Inactive"
+            existingPatient.setPatientStatus("Inactive");
+            existingPatient.setPatientUpdatedAt(LocalDateTime.now());
 
-      // Check if the update was successful; if not, throw an exception
-        if (rowsAffected == 0) {
-           throw new RuntimeException("Failed to delete patient. No rows were affected.");
+            // Call the repository to update the patient's status in the database
+            int rowsAffected = patientRepository.deletePatientById(patientId);
+
+            if (rowsAffected == 0) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to delete patient. No rows were affected.");
+            }
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error occurred while deleting patient", e);
         }
     }
+
 }
