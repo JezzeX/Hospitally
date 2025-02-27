@@ -18,7 +18,6 @@ public class SaleRowMapper implements RowMapper<Sale> {
                 .saleTotalPrice(rs.getDouble("saleTotalPrice"))
                 .saleDate(rs.getDate("saleDate").toLocalDate())
                 .saleCreatedAt(rs.getTimestamp("saleCreatedAt").toLocalDateTime())
-                .saleUpdatedAt(rs.getTimestamp("saleUpdatedAt").toLocalDateTime())
                 .build();
     }
 }

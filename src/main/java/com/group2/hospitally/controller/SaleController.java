@@ -62,15 +62,5 @@ public class SaleController {
         return new ResponseEntity<>(sale, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{saleId}")
-    public ResponseEntity<Sale> updateSale(@PathVariable int saleId, @RequestBody @Valid CreateSaleRequest request) {
-        Sale updatedSale = saleService.updateSale(saleId, request);
-        return new ResponseEntity<>(updatedSale, HttpStatus.OK);
-    }
 
-    @DeleteMapping("/delete/{saleId}")
-    public ResponseEntity<String> deleteSale(@PathVariable int saleId) {
-        saleService.deleteSaleById(saleId);
-        return new ResponseEntity<>("Sale deleted successfully", HttpStatus.OK);
-    }
 }

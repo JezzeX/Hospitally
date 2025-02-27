@@ -4,12 +4,12 @@ public class EquipmentQuery {
 
     // Get equipment by ID
     public static final String GET_EQUIPMENT_BY_ID = """
-        SELECT * FROM Equipment WHERE equipmentId = :equipmentId
+        SELECT * FROM Equipment WHERE equipmentId = :equipmentId AND equipmentStatus = 'Active'
     """;
 
     // Get all equipment
     public static final String GET_ALL_EQUIPMENT = """
-        SELECT * FROM Equipment
+        SELECT * FROM Equipment WHERE equipmentStatus = 'Active'
     """;
 
     // Insert new equipment
@@ -32,8 +32,11 @@ public class EquipmentQuery {
 
     // Delete equipment by ID
     public static final String DELETE_EQUIPMENT_BY_ID = """
-        DELETE FROM Equipment WHERE equipmentId = :equipmentId
+        UPDATE Equipment
+            SET equipmentStatus = 'Deleted',
+                equipmentUpdatedAt = GETDATE()
+            WHERE equipmentId = :equipmentId
     """;
 
-    public static final String GET_EQUIPMENT_BY_HOSPITAL_ID = "SELECT * FROM Equipment WHERE hospitalId = :hospitalId";
+    public static final String GET_EQUIPMENT_BY_HOSPITAL_ID = "SELECT * FROM Equipment WHERE hospitalId = :hospitalId AND equipmentStatus = 'Active'";
 }

@@ -21,5 +21,4 @@ public class Sale {
     private double saleTotalPrice;
     private LocalDate saleDate;
     private LocalDateTime saleCreatedAt;
-    private LocalDateTime saleUpdatedAt;
 }
