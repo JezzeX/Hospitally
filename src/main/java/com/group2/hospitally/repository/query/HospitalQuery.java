@@ -6,9 +6,11 @@ public class HospitalQuery {
             VALUES (:hospitalName, :hospitalAddress, :hospitalPhoneNo, :hospitalEmail, GETDATE(), GETDATE())
             """;
 
-    public static final String GET_ALL_HOSPITALS = "SELECT * FROM Hospital";
+    public static final String GET_ALL_HOSPITALS =
+            "SELECT * FROM Hospital WHERE hospitalStatus = 'Active'";
 
-    public static final String GET_HOSPITAL_BY_ID = "SELECT * FROM Hospital WHERE hospitalId = :hospitalId";
+    public static final String GET_HOSPITAL_BY_ID =
+            "SELECT * FROM Hospital WHERE hospitalId = :hospitalId AND hospitalStatus = 'Active'";
 
     public static final String UPDATE_HOSPITAL_BY_ID = """
             UPDATE Hospital
@@ -17,8 +19,18 @@ public class HospitalQuery {
                 hospitalPhoneNo = :hospitalPhoneNo,
                 hospitalEmail = :hospitalEmail,
                 hospitalUpdatedAt = GETDATE()
-            WHERE hospitalId = :hospitalId
+            WHERE hospitalId = :hospitalId AND hospitalStatus = 'Active'";"
             """;
 
-    public static final String DELETE_HOSPITAL_BY_ID = "DELETE FROM Hospital WHERE hospitalId = :hospitalId";
+//    public static final String DELETE_HOSPITAL_BY_ID =
+//            "DELETE FROM Hospital WHERE hospitalId = :hospitalId";
+
+    public static final String DELETE_HOSPITAL_BY_ID = """
+            UPDATE Hospital
+            SET hospitalStatus = 'Inactive',
+            hospitalUpdatedAt = GETDATE()
+            WHERE hospitalId = :hospitalId AND hospitalStatus = 'Active'";"
+           """;
+
+
 }

@@ -1,16 +1,20 @@
 package com.group2.hospitally.model.request.appointment;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Builder
 public class UpdateAppointmentRequest {
 
-    @NotBlank
-    private String appointmentDate;
+    @NotNull
+    private LocalDate appointmentDate;
 
-    @NotBlank
-    private String appointmentTime;
+    @NotNull
+    private LocalTime appointmentTime;
 }
