@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Data
 @Builder
 public class CreateAppointmentRequest {
@@ -14,9 +17,9 @@ public class CreateAppointmentRequest {
     @NotNull
     private int staffId;
 
-    @NotBlank
-    private String appointmentDate;
+    @NotNull
+    private LocalDate appointmentDate;
 
-    @NotBlank
-    private String appointmentTime;
+    @NotNull
+    private LocalTime appointmentTime;
 }

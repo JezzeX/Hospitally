@@ -14,9 +14,6 @@ public interface PatientRepository {
     // Get all patients in a hospital by hospital ID
     List<Patient> getPatientsByHospitalId(int hospitalId);
 
-    // Get all patients by status (Active/Inactive)
-    List<Patient> getPatientsByStatus(String status);
-
     // Create a new patient
     Patient createPatient(Patient patient);
 

@@ -12,15 +12,11 @@ public class PatientQuery {
 
     // Retrieve a single patient using their ID
     public static final String GET_PATIENT_BY_ID =
-       "SELECT * FROM Patient WHERE patientId = :patientId";
+       "SELECT * FROM Patient WHERE patientId = :patientId AND patientStatus = 'Active'";
 
     // Retrieve patients of a particular hospital by hospital ID
     public static final String GET_PATIENTS_BY_HOSPITAL_ID =
-       "SELECT * FROM Patient WHERE patientStatus = 'Active' AND hospitalId = 1;";
-
-    // Retrieve patients by status (Active/Inactive)
-    public static final String GET_PATIENTS_BY_STATUS = """
-            SELECT * FROM Patient WHERE patientStatus = :patientStatus""";
+       "SELECT * FROM Patient WHERE patientStatus = 'Active' AND hospitalId = :hospitalId;";
 
     // Update patient details
     public static final String UPDATE_PATIENT_BY_ID = """
@@ -32,7 +28,7 @@ public class PatientQuery {
                 patientAddress = :patientAddress,
                 patientMedicalHistory = :patientMedicalHistory,
                 patientUpdatedAt = GETDATE()
-            WHERE patientId = :patientId
+            WHERE patientId = :patientId AND patientStatus = 'Active'
             """;
 
     // Delete a patient (Change status to 'Inactive')
@@ -40,5 +36,5 @@ public class PatientQuery {
             UPDATE Patient
             SET patientStatus = 'Inactive',
                 patientUpdatedAt = GETDATE()
-            WHERE patientId = :patientId""";
+            WHERE patientId = :patientId AND patientStatus = 'Active'""";
 }

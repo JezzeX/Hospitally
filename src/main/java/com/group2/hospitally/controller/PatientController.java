@@ -31,7 +31,7 @@ public class PatientController {
     }
 
     // get all the patients that belong to a hospital
-    @GetMapping("/hospital/{hospitalId}")
+    @GetMapping("/by-hospital/{hospitalId}")
     public ResponseEntity<List<Patient>> getPatientsByHospitalId(@PathVariable int hospitalId) {
         List<Patient> patients = patientService.getPatientsByHospitalId(hospitalId);
         return new ResponseEntity<>(patients, HttpStatus.OK);
@@ -42,12 +42,6 @@ public class PatientController {
     public ResponseEntity<Patient> getPatientById(@PathVariable int patientId) {
         Patient patient = patientService.getPatientById(patientId);
         return new ResponseEntity<>(patient, HttpStatus.OK);
-    }
-    // Get all patients based on status (Active/Inactive)
-    @GetMapping("/status/{status}")
-    public ResponseEntity<List<Patient>> getPatientsByStatus(@PathVariable String status) {
-        List<Patient> patients = patientService.getPatientsByStatus(status);
-        return new ResponseEntity<>(patients, HttpStatus.OK);
     }
     // Create a new patient
     @PostMapping("/create")

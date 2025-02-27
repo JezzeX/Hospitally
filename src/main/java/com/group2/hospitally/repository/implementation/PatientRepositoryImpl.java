@@ -25,7 +25,6 @@ public class PatientRepositoryImpl implements PatientRepository {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("patientId", patientId);
         return jdbcTemplate.queryForObject(PatientQuery.GET_PATIENT_BY_ID, parameterSource, new PatientRowMapper());
     }
-
     @Override
     public List<Patient> getAllPatients() {
         return jdbcTemplate.query(PatientQuery.GET_ALL_PATIENTS, new PatientRowMapper());
@@ -35,12 +34,6 @@ public class PatientRepositoryImpl implements PatientRepository {
     public List<Patient> getPatientsByHospitalId(int hospitalId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId);
         return jdbcTemplate.query(PatientQuery.GET_PATIENTS_BY_HOSPITAL_ID, parameterSource, new PatientRowMapper());
-    }
-
-    @Override
-    public List<Patient> getPatientsByStatus(String status) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource("patientStatus", status);
-        return jdbcTemplate.query(PatientQuery.GET_PATIENTS_BY_STATUS, parameterSource, new PatientRowMapper());
     }
 
     @Override

@@ -6,9 +6,9 @@ public class MedicationQuery {
             VALUES (:hospitalId, :medicationName, :medicationType, :stockQuantity, :medicationPrice, COALESCE(:medicationStatus, 'Active'), GETDATE(), GETDATE())
             """;
 
-    public static final String GET_ALL_MEDICATIONS = "SELECT * FROM Medication";
+    public static final String GET_ALL_MEDICATIONS = "SELECT * FROM Medication WHERE medicationStatus == 'Active'";
 
-    public static final String GET_MEDICATION_BY_ID = "SELECT * FROM Medication WHERE medicationId = :medicationId";
+    public static final String GET_MEDICATION_BY_ID = "SELECT * FROM Medication WHERE medicationId = :medicationId AND medicationStatus = 'Active'";
 
     public static final String UPDATE_MEDICATION_BY_ID = """
             UPDATE Medication
@@ -22,9 +22,14 @@ public class MedicationQuery {
             WHERE medicationId = :medicationId
             """;
 
-    public static final String DELETE_MEDICATION_BY_ID = "DELETE FROM Medication WHERE medicationId = :medicationId";
+    public static final String DELETE_MEDICATION_BY_ID = """
+            UPDATE Medication
+            SET medicationStatus = 'Deleted',
+                medicationUpdatedAt = GETDATE()
+            WHERE medicationId = :medicationId
+            """;
 
-    public static final String GET_MEDICATION_BY_HOSPITAL_ID = "SELECT * FROM Medication WHERE hospitalId = :hospitalId";
+    public static final String GET_MEDICATION_BY_HOSPITAL_ID = "SELECT * FROM Medication WHERE hospitalId = :hospitalId AND medicationStatus = 'Active'";
 
-    public static final String GET_MEDICATION_BY_TYPE = "SELECT * FROM Medication WHERE medicationType = :medicationType AND hospitalId = :hospitalId";
+    public static final String GET_MEDICATION_BY_TYPE = "SELECT * FROM Medication WHERE medicationType = :medicationType AND hospitalId = :hospitalId  AND medicationStatus = 'Active'";
 }

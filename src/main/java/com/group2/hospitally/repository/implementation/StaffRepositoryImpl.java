@@ -1,11 +1,14 @@
 package com.group2.hospitally.repository.implementation;
 
 import com.group2.hospitally.repository.Interface.StaffRepository;
+import com.group2.hospitally.repository.query.PatientQuery;
 import com.group2.hospitally.repository.query.StaffQuery;
 import com.group2.hospitally.model.entity.Staff;
 import com.group2.hospitally.mapper.StaffRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,6 +31,11 @@ public class StaffRepositoryImpl implements StaffRepository {
     public List<Staff> getAllStaffs() {
         return jdbcTemplate.query(StaffQuery.GET_ALL_STAFFS, new StaffRowMapper());
     }
+    @Override
+    public List<Staff>getStaffByHospitalId(int hospitalId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId);
+        return jdbcTemplate.query(StaffQuery.GET_STAFF_BY_HOSPITAL_ID, parameterSource, new StaffRowMapper());
+    }
 
     @Override
     public Staff createStaff(Staff staff) {
@@ -36,11 +44,15 @@ public class StaffRepositoryImpl implements StaffRepository {
                 .addValue("staffRole", staff.getStaffRole())
                 .addValue("staffDepartment", staff.getStaffDepartment())
                 .addValue("staffContact", staff.getStaffContact());
-        int id = jdbcTemplate.update(StaffQuery.INSERT_STAFF, parameterSource);
 
-        // Retrieve and return the newly created staff
-        MapSqlParameterSource parameterSource2 = new MapSqlParameterSource("staffId", id);
-        return jdbcTemplate.queryForObject(StaffQuery.GET_STAFF_BY_ID, parameterSource2, new StaffRowMapper());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(StaffQuery.INSERT_STAFF, parameterSource, keyHolder, new String[]{"staff_id"});
+
+        // Get the generated ID and set it in the patient object
+        int staffId = keyHolder.getKey().intValue();
+        staff.setStaffId(staffId);
+
+        return staff;
     }
 
     @Override
