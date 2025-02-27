@@ -6,7 +6,9 @@ import com.group2.hospitally.model.entity.Sale;
 import com.group2.hospitally.model.request.Sale.CreateSaleRequest;
 import com.group2.hospitally.repository.Interface.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,62 +27,82 @@ public class SaleService {
     }
 
     public List<Sale> getAllSales() {
-        return saleRepository.getAllSales();
+        try {
+            return saleRepository.getAllSales();
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error getting all sales",e);
+        }
+
     }
 
     public Sale getSaleById(int saleId) {
-        return saleRepository.getSaleById(saleId);
+        try {
+            Sale sale = saleRepository.getSaleById(saleId);
+            if(sale==null){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Sale not found");
+            }
+            return sale;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error getting sale",e);
+        }
     }
 
     public List<Sale> getSaleByMedicationId(int medicationId) {
-        return saleRepository.getSaleByMedicationId(medicationId);
+        try{
+            List<Sale> sale = saleRepository.getSaleByMedicationId(medicationId);
+            if(sale==null){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Sale not found");
+            }
+            return sale;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error getting sale",e);
+        }
     }
 
     public List<Sale> getSaleByPatientId(int patientId) {
-        return saleRepository.getSaleByPatientId(patientId);
+        try {
+            List<Sale> sale = saleRepository.getSaleByPatientId(patientId);
+            if(sale==null){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Sale not found");
+            }
+            return sale;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error getting sale",e);
+        }
     }
 
     public List<Sale> getSaleByHospital(int hospitalId) {
-        return saleRepository.getSaleByHospital(hospitalId);
+        try {
+            List<Sale> sale = saleRepository.getSaleByHospital(hospitalId);
+            if (sale == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale not found");
+            }
+            return sale;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error getting sale",e);
+        }
     }
 
     public Sale createSale(CreateSaleRequest request) {
-        Medication medication = medicationService.getMedicationById(request.getMedicationId());
-        if (medication == null){
-            throw new RuntimeException("Medication with id " + request.getMedicationId() + " not found");
+        try {
+            Medication medication = medicationService.getMedicationById(request.getMedicationId());
+            if (medication == null) {
+                throw new RuntimeException("Medication with id " + request.getMedicationId() + " not found");
+            }
+
+            Sale sale = new Sale();
+
+            sale.setMedicationId(request.getMedicationId());
+            sale.setPatientId(request.getPatientId());
+            sale.setSaleQuantity(request.getSaleQuantity());
+            sale.setSaleTotalPrice(request.getSaleTotalPrice());
+            sale.setSaleDate(LocalDate.now());
+            sale.setSaleCreatedAt(LocalDateTime.now());
+
+            return saleRepository.createSale(sale);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error creating sale",e);
         }
-
-        Sale sale = new Sale();
-
-        sale.setMedicationId(request.getMedicationId());
-        sale.setPatientId(request.getPatientId());
-        sale.setSaleQuantity(request.getSaleQuantity());
-        sale.setSaleTotalPrice(request.getSaleTotalPrice());
-        sale.setSaleDate(LocalDate.now());
-        sale.setSaleCreatedAt(LocalDateTime.now());
-        sale.setSaleUpdatedAt(LocalDateTime.now());
-
-        return saleRepository.createSale(sale);
     }
 
-    public Sale updateSale(int saleId, CreateSaleRequest request) {
-        // Retrieve the sale to check if it exists
-        Sale existingSale = saleRepository.getSaleById(saleId);
-        if (existingSale == null) {
-            throw new RuntimeException("Sale with ID " + saleId + " not found");
-        }
-
-        // Update the sale details
-        existingSale.setMedicationId(request.getMedicationId());
-        existingSale.setPatientId(request.getPatientId());
-        existingSale.setSaleQuantity(request.getSaleQuantity());
-        existingSale.setSaleTotalPrice(request.getSaleTotalPrice());
-
-        // Save the updated sale
-        return saleRepository.updateSale(existingSale);
-    }
-
-    public void deleteSaleById(int saleId) {
-        saleRepository.deleteSaleById(saleId);
-    }
 }

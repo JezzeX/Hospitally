@@ -11,25 +11,12 @@ public class SaleQuery {
     """;
 
     public static final String INSERT_SALE = """
-       INSERT INTO Sale (medicationId, patientId, saleQuantity, saleTotalPrice, saleDate, saleCreatedAt, saleUpdatedAt) VALUES (:medicationId, :patientId, :saleQuantity, :saleTotalPrice, GETDATE(), GETDATE(), GETDATE());                                                                                UPDATE Medication
+       INSERT INTO Sale (medicationId, patientId, saleQuantity, saleTotalPrice, saleDate, saleCreatedAt) VALUES (:medicationId, :patientId, :saleQuantity, :saleTotalPrice, GETDATE(), GETDATE());                                                                                UPDATE Medication
             SET stockQuantity = stockQuantity - :saleQuantity
             WHERE medicationId = :medicationId;
     """;
 
-    public static final String UPDATE_SALE_BY_ID = """
-        UPDATE Sale
-        SET medicationId = :medicationId, 
-            patientId = :patientId, 
-            saleQuantity = :saleQuantity, 
-            saleTotalPrice = :saleTotalPrice, 
-            saleDate = :saleDate, 
-            saleUpdatedAt = GETDATE()
-        WHERE saleId = :saleId
-    """;
 
-    public static final String DELETE_SALE_BY_ID = """
-        DELETE FROM Sale WHERE saleId = :saleId
-    """;
 
     public static final String GET_SALE_BY_MEDICATION = "SELECT * FROM SALE WHERE medicationId = :medicationId";
 

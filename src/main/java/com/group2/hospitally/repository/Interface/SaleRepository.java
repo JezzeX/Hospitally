@@ -23,9 +23,4 @@ public interface SaleRepository {
     // Create a new sale
     Sale createSale(Sale sale);
 
-    // Update an existing sale
-    Sale updateSale(Sale sale);
-
-    // Delete a sale by ID
-    int deleteSaleById(int saleId);
 }
