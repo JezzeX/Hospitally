@@ -9,7 +9,7 @@ import lombok.Data;
 public class CreateMedicationRequest {
 
     @NotNull
-    private int hospitalId;
+    private int medicationHospitalId;
 
     @NotBlank
     private String medicationName;

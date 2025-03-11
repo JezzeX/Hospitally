@@ -1,6 +1,5 @@
 package com.group2.hospitally.service;
 
-import com.google.gson.Gson;
 import com.group2.hospitally.model.entity.Equipment;
 import com.group2.hospitally.model.entity.Hospital;
 import com.group2.hospitally.model.request.Equipment.CreateEquipmentRequest;
@@ -49,11 +48,11 @@ public class EquipmentService {
         }
     }
 
-    public List<Equipment> getEquipmentByHospitalId(int hospitalId) {
+    public List<Equipment> getEquipmentByHospitalId(int equipmentHospitalId) {
         try {
-            List<Equipment> equipment = equipmentRepository.getEquipmentByHospitalId(hospitalId);
+            List<Equipment> equipment = equipmentRepository.getEquipmentByHospitalId(equipmentHospitalId);
             if(equipment == null){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Equipment in hospital with id"+hospitalId+" not found");
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Equipment in hospital with id"+equipmentHospitalId+" not found");
             }
             return equipment;
         }catch(Exception e){
@@ -64,13 +63,13 @@ public class EquipmentService {
     public Equipment createEquipment(CreateEquipmentRequest request) {
         // Check if the hospitalId exists before creating the equipment
         try {
-            Hospital hospital = hospitalService.getHospitalById(request.getHospitalId());
+            Hospital hospital = hospitalService.getHospitalById(request.getEquipmentHospitalId());
             if (hospital == null) {
-                throw new RuntimeException("Hospital with ID " + request.getHospitalId() + " does not exist.");
+                throw new RuntimeException("Hospital with ID " + request.getEquipmentHospitalId() + " does not exist.");
             }
             Equipment equipment = new Equipment();
 
-            equipment.setHospitalId(request.getHospitalId());
+            equipment.setEquipmentHospitalId(request.getEquipmentHospitalId());
             equipment.setEquipmentName(request.getEquipmentName());
             equipment.setEquipmentType(request.getEquipmentType());
             equipment.setAssignedDepartment(request.getAssignedDepartment());

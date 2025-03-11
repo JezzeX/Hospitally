@@ -12,7 +12,7 @@ public class MedicationRowMapper implements RowMapper<Medication> {
     public Medication mapRow(ResultSet rs, int rowNum) throws SQLException {
         return Medication.builder()
                 .medicationId(rs.getInt("medicationId"))
-                .hospitalId(rs.getInt("hospitalId"))
+                .medicationHospitalId(rs.getInt("medicationHospitalId"))
                 .medicationName(rs.getString("medicationName"))
                 .medicationType(rs.getString("medicationType"))
                 .stockQuantity(rs.getInt("stockQuantity"))

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Medication {
     private int medicationId;
-    private int hospitalId;
+    private int medicationHospitalId;
     private String medicationName;
     private String medicationType;
     private int stockQuantity;

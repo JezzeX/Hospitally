@@ -35,15 +35,15 @@ public class MedicationController {
         return new ResponseEntity<>(medication, HttpStatus.OK);
     }
 
-    @GetMapping("/hospital/{hospitalId}/medication")
-    public ResponseEntity<List<Medication>> getMedicationByHospitalId(@PathVariable int hospitalId) {
-        List<Medication> medication = medicationService.getMedicationByHospitalId(hospitalId);
+    @GetMapping("/hospital/{medicationHospitalId}/medication")
+    public ResponseEntity<List<Medication>> getMedicationByHospitalId(@PathVariable int medicationHospitalId) {
+        List<Medication> medication = medicationService.getMedicationByHospitalId(medicationHospitalId);
         return new ResponseEntity<>(medication, HttpStatus.OK);
     }
 
-    @GetMapping("/hospital/{hospitalId}/medication/{medicationType}")
-    public ResponseEntity <List<Medication>> getMedicationByType(@PathVariable int hospitalId ,@PathVariable String medicationType) {
-        List<Medication> medication = medicationService.getMedicationByType(hospitalId,medicationType);
+    @GetMapping("/hospital/{medicationHospitalId}/medication/{medicationType}")
+    public ResponseEntity <List<Medication>> getMedicationByType(@PathVariable int medicationHospitalId ,@PathVariable String medicationType) {
+        List<Medication> medication = medicationService.getMedicationByType(medicationHospitalId,medicationType);
         return new ResponseEntity<>(medication, HttpStatus.OK);
     }
 

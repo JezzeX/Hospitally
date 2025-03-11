@@ -8,10 +8,10 @@ import lombok.Data;
 public class CreateSaleRequest {
 
     @NotNull
-    private int medicationId;
+    private int saleMedicationId;
 
     @NotNull
-    private int patientId;
+    private int salePatientId;
 
     @NotNull
     private int saleQuantity;

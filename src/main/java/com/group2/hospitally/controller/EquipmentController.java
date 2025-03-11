@@ -39,9 +39,9 @@ public class EquipmentController {
         return new ResponseEntity<>(equipment, HttpStatus.OK);
     }
 
-    @GetMapping("/hospital/{hospitalId}/equipment")
-    public ResponseEntity<List<Equipment>> getEquipmentByHospitalId(@PathVariable int hospitalId) {
-        List<Equipment> equipment = equipmentService.getEquipmentByHospitalId(hospitalId);
+    @GetMapping("/hospital/{equipmentHospitalId}/equipment")
+    public ResponseEntity<List<Equipment>> getEquipmentByHospitalId(@PathVariable int equipmentHospitalId) {
+        List<Equipment> equipment = equipmentService.getEquipmentByHospitalId(equipmentHospitalId);
         return new ResponseEntity<>(equipment, HttpStatus.OK);
     }
 

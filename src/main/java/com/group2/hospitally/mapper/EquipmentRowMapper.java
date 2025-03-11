@@ -11,7 +11,7 @@ public class EquipmentRowMapper implements RowMapper<Equipment> {
     public Equipment mapRow(ResultSet rs, int rowNum) throws SQLException {
         return Equipment.builder()
                 .equipmentId(rs.getInt("equipmentId"))
-                .hospitalId(rs.getInt("hospitalId"))
+                .equipmentHospitalId(rs.getInt("equipmentHospitalId"))
                 .equipmentName(rs.getString("equipmentName"))
                 .equipmentType(rs.getString("equipmentType"))
                 .equipmentStatus(rs.getString("equipmentStatus"))

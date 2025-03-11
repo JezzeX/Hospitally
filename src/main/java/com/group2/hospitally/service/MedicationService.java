@@ -1,6 +1,5 @@
 package com.group2.hospitally.service;
 
-import com.google.gson.Gson;
 import com.group2.hospitally.model.entity.Hospital;
 import com.group2.hospitally.model.entity.Medication;
 import com.group2.hospitally.model.request.Medication.CreateMedicationRequest;
@@ -72,14 +71,14 @@ public class MedicationService {
 
     public Medication createMedication(CreateMedicationRequest request) {
         try {
-            Hospital hospital = hospitalService.getHospitalById(request.getHospitalId());
+            Hospital hospital = hospitalService.getHospitalById(request.getMedicationHospitalId());
             if (hospital == null) {
-                throw new RuntimeException("Hospital with ID " + request.getHospitalId() + " does not exist.");
+                throw new RuntimeException("Hospital with ID " + request.getMedicationHospitalId() + " does not exist.");
             }
 
             Medication medication = new Medication();
 
-            medication.setHospitalId(request.getHospitalId());
+            medication.setMedicationHospitalId(request.getMedicationHospitalId());
             medication.setMedicationName(request.getMedicationName());
             medication.setMedicationType(request.getMedicationType());
             medication.setMedicationStatus("Active");
@@ -126,5 +125,9 @@ public class MedicationService {
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error deleting medication",e);
         }
+    }
+
+    public void updateMedicationStock(Medication medication) {
+        medicationRepository.updateStock(medication.getMedicationId(), medication.getStockQuantity());
     }
 }

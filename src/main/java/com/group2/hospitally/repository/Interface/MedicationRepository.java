@@ -9,10 +9,10 @@ public interface MedicationRepository {
     Medication getMedicationById(int medicationId);
 
     // Get medication by Hospital Id
-    List<Medication> getMedicationByHospitalId(int hospitalId);
+    List<Medication> getMedicationByHospitalId(int medicationHospitalId);
 
     // Get medication by Type
-    List<Medication> getMedicationByType(int hospitalId, String medicationType);
+    List<Medication> getMedicationByType(int medicationHospitalId, String medicationType);
 
     // Get all medications
     List<Medication> getAllMedications();
@@ -25,4 +25,7 @@ public interface MedicationRepository {
 
     // Delete medication
     int deleteMedicationById(int medicationId);
+
+    // Update stock quantity
+    void updateStock(int medicationId, int stockQuantity);
 }

@@ -2,6 +2,7 @@ package com.group2.hospitally.controller;
 
 import com.group2.hospitally.model.entity.Sale;
 import com.group2.hospitally.model.request.Sale.CreateSaleRequest;
+import com.group2.hospitally.model.response.RevenueResponse;
 import com.group2.hospitally.service.SaleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,12 @@ public class SaleController {
         return new ResponseEntity<>(sale, HttpStatus.OK);
     }
 
+    @GetMapping("/hospital/{hospitalId}/medication-revenue")
+    public ResponseEntity<List<RevenueResponse>> getTotalRevenueGeneratedByMedications(@PathVariable int hospitalId) {
+        List<RevenueResponse> revenue = saleService.getTotalRevenueGeneratedByMedications(hospitalId);
+        return new ResponseEntity<>(revenue, HttpStatus.OK);
+    }
+
     @GetMapping("/patient/{patientId}/sales")
     public ResponseEntity<List<Sale>> getSaleByPatientId(@PathVariable int patientId) {
         List<Sale> sale = saleService.getSaleByPatientId(patientId);
@@ -49,11 +56,11 @@ public class SaleController {
     }
 
     // sales specific to a hospital
-    @GetMapping("/hospital/{hospitalId}/sales")
-    public ResponseEntity<List<Sale>> getSaleByHospital(@PathVariable int hospitalId) {
-        List<Sale> sale = saleService.getSaleByHospital(hospitalId);
-        return new ResponseEntity<>(sale, HttpStatus.OK);
-    }
+//    @GetMapping("/hospital/{hospitalId}/sales")
+//    public ResponseEntity<List<Sale>> getSaleByHospital(@PathVariable int hospitalId) {
+//        List<Sale> sale = saleService.getSaleByHospital(hospitalId);
+//        return new ResponseEntity<>(sale, HttpStatus.OK);
+//    }
 
 
     @PostMapping("/create-sale")

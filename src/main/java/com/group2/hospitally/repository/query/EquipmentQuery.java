@@ -14,14 +14,14 @@ public class EquipmentQuery {
 
     // Insert new equipment
     public static final String INSERT_EQUIPMENT = """
-        INSERT INTO Equipment (hospitalId, equipmentName, equipmentType, equipmentStatus, assignedDepartment, equipmentCreatedAt, equipmentUpdatedAt)
-        VALUES (:hospitalId, :equipmentName, :equipmentType, COALESCE(:equipmentStatus, 'active'), :assignedDepartment, GETDATE(), GETDATE())
+        INSERT INTO Equipment (equipmentHospitalId, equipmentName, equipmentType, equipmentStatus, assignedDepartment, equipmentCreatedAt, equipmentUpdatedAt)
+        VALUES (:equipmentHospitalId, :equipmentName, :equipmentType, COALESCE(:equipmentStatus, 'active'), :assignedDepartment, GETDATE(), GETDATE())
     """;
 
     // Update equipment by ID
     public static final String UPDATE_EQUIPMENT_BY_ID = """
         UPDATE Equipment
-        SET hospitalId = :hospitalId,
+        SET equipmentHospitalId = :equipmentHospitalId,
             equipmentName = :equipmentName,
             equipmentType = :equipmentType,
             equipmentStatus = :equipmentStatus,
@@ -38,5 +38,5 @@ public class EquipmentQuery {
             WHERE equipmentId = :equipmentId
     """;
 
-    public static final String GET_EQUIPMENT_BY_HOSPITAL_ID = "SELECT * FROM Equipment WHERE hospitalId = :hospitalId AND equipmentStatus = 'Active'";
+    public static final String GET_EQUIPMENT_BY_HOSPITAL_ID = "SELECT * FROM Equipment WHERE equipmentHospitalId = :equipmentHospitalId AND equipmentStatus = 'Active'";
 }

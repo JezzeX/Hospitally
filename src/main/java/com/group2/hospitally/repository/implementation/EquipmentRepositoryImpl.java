@@ -4,7 +4,7 @@ import com.group2.hospitally.mapper.EquipmentRowMapper;
 import com.group2.hospitally.model.entity.Equipment;
 import com.group2.hospitally.repository.Interface.EquipmentRepository;
 import com.group2.hospitally.repository.query.EquipmentQuery;
-import com.group2.hospitally.repository.query.MedicationQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,6 +18,7 @@ public class EquipmentRepositoryImpl implements EquipmentRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
+    @Autowired
     public EquipmentRepositoryImpl(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -43,7 +44,7 @@ public class EquipmentRepositoryImpl implements EquipmentRepository {
     @Override
     public Equipment createEquipment(Equipment equipment) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("hospitalId", equipment.getHospitalId())
+                .addValue("hospitalId", equipment.getEquipmentHospitalId())
                 .addValue("equipmentName", equipment.getEquipmentName())
                 .addValue("equipmentType", equipment.getEquipmentType())
                 .addValue("equipmentStatus", equipment.getEquipmentStatus())
@@ -63,7 +64,7 @@ public class EquipmentRepositoryImpl implements EquipmentRepository {
     public Equipment updateEquipment(Equipment equipment) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("equipmentId", equipment.getEquipmentId())
-                .addValue("hospitalId", equipment.getHospitalId())
+                .addValue("hospitalId", equipment.getEquipmentHospitalId())
                 .addValue("equipmentName", equipment.getEquipmentName())
                 .addValue("equipmentType", equipment.getEquipmentType())
                 .addValue("equipmentStatus", equipment.getEquipmentStatus())

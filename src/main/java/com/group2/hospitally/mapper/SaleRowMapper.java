@@ -12,8 +12,8 @@ public class SaleRowMapper implements RowMapper<Sale> {
     public Sale mapRow(ResultSet rs, int rowNum) throws SQLException {
         return Sale.builder()
                 .saleId(rs.getInt("saleId"))
-                .medicationId(rs.getInt("medicationId"))
-                .patientId(rs.getInt("patientId"))
+                .saleMedicationId(rs.getInt("saleMedicationId"))
+                .salePatientId(rs.getInt("salePatientId"))
                 .saleQuantity(rs.getInt("saleQuantity"))
                 .saleTotalPrice(rs.getDouble("saleTotalPrice"))
                 .saleDate(rs.getDate("saleDate").toLocalDate())

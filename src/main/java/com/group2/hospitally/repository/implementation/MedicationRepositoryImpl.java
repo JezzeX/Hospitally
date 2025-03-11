@@ -28,14 +28,14 @@ public class MedicationRepositoryImpl implements MedicationRepository {
     }
 
     @Override
-    public List<Medication> getMedicationByHospitalId(int hospitalId) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId);
+    public List<Medication> getMedicationByHospitalId(int medicationHospitalId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("medicationHospitalId", medicationHospitalId);
         return jdbcTemplate.query(MedicationQuery.GET_MEDICATION_BY_HOSPITAL_ID, parameterSource, new MedicationRowMapper());
     }
 
     @Override
-    public List<Medication> getMedicationByType(int hospitalId, String medicationType) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId).addValue("medicationType", medicationType);
+    public List<Medication> getMedicationByType(int medicationHospitalId, String medicationType) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("medicationHospital", medicationHospitalId).addValue("medicationType", medicationType);
         return jdbcTemplate.query(MedicationQuery.GET_MEDICATION_BY_TYPE, parameterSource, new MedicationRowMapper());
     }
 
@@ -44,10 +44,18 @@ public class MedicationRepositoryImpl implements MedicationRepository {
         return jdbcTemplate.query(MedicationQuery.GET_ALL_MEDICATIONS, new MedicationRowMapper());
     }
 
+    public void updateStock(int medicationId, int stockQuantity) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("medicationId", medicationId)
+                .addValue("stockQuantity", stockQuantity);
+
+        jdbcTemplate.update(MedicationQuery.UPDATE_STOCK_QUANTITY, parameterSource);
+    }
+
     @Override
     public Medication createMedication(Medication medication) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("hospitalId", medication.getHospitalId())
+                .addValue("medicationHospitalId", medication.getMedicationHospitalId())
                 .addValue("medicationName", medication.getMedicationName())
                 .addValue("medicationType", medication.getMedicationType())
                 .addValue("stockQuantity", medication.getStockQuantity())
@@ -69,7 +77,7 @@ public class MedicationRepositoryImpl implements MedicationRepository {
     public Medication updateMedication(Medication medication) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("medicationId", medication.getMedicationId())
-                .addValue("hospitalId", medication.getHospitalId())
+                .addValue("medicationHospitalId", medication.getMedicationHospitalId())
                 .addValue("medicationName", medication.getMedicationName())
                 .addValue("medicationType", medication.getMedicationType())
                 .addValue("stockQuantity", medication.getStockQuantity())

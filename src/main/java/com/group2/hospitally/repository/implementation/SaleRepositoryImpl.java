@@ -1,7 +1,9 @@
 package com.group2.hospitally.repository.implementation;
 
+import com.group2.hospitally.mapper.RevenueRowMapper;
 import com.group2.hospitally.mapper.SaleRowMapper;
 import com.group2.hospitally.model.entity.Sale;
+import com.group2.hospitally.model.response.RevenueResponse;
 import com.group2.hospitally.repository.Interface.SaleRepository;
 import com.group2.hospitally.repository.query.SaleQuery;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -28,33 +30,37 @@ public class SaleRepositoryImpl implements SaleRepository {
     }
 
     @Override
-    public List<Sale> getSaleByMedicationId(int medicationId) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource("medicationId", medicationId);
+    public List<Sale> getSaleByMedicationId(int saleMedicationId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("saleMedicationId", saleMedicationId);
         return jdbcTemplate.query(SaleQuery.GET_SALE_BY_MEDICATION, parameterSource, new SaleRowMapper());
     }
 
     @Override
-    public List<Sale> getSaleByPatientId(int patientId) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource("patientId", patientId);
+    public List<Sale> getSaleByPatientId(int salePatientId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("salePatientId", salePatientId);
         return jdbcTemplate.query(SaleQuery.GET_SALE_BY_PATIENT, parameterSource, new SaleRowMapper());
     }
 
-    @Override
-    public List<Sale> getSaleByHospital(int hospitalId) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource("hospitalId", hospitalId);
-        return jdbcTemplate.query(SaleQuery.GET_SALE_BY_HOSPITAL_ID, parameterSource, new SaleRowMapper());
-    }
 
     @Override
     public List<Sale> getAllSales() {
         return jdbcTemplate.query(SaleQuery.GET_ALL_SALES, new SaleRowMapper());
     }
 
+
+    @Override
+    public List<RevenueResponse> getTotalRevenueGeneratedByMedications(int hospitalId) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource("medicationHospitalId", hospitalId);
+        return jdbcTemplate.query(SaleQuery.GET_TOTAL_REVENUE_GENERATED_BY_MEDICATIONS,parameterSource, new RevenueRowMapper());
+    }
+
+
+
     @Override
     public Sale createSale(Sale sale) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("medicationId", sale.getMedicationId())
-                .addValue("patientId", sale.getPatientId())
+                .addValue("saleMedicationId", sale.getSaleMedicationId())
+                .addValue("salePatientId", sale.getSalePatientId())
                 .addValue("saleQuantity", sale.getSaleQuantity())
                 .addValue("saleTotalPrice", sale.getSaleTotalPrice());
 

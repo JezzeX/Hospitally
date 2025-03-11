@@ -2,8 +2,8 @@ package com.group2.hospitally.repository.query;
 
 public class MedicationQuery {
     public static final String INSERT_MEDICATION = """
-            INSERT INTO Medication(hospitalId, medicationName, medicationType, stockQuantity, medicationPrice, medicationStatus, medicationCreatedAt, medicationUpdatedAt)
-            VALUES (:hospitalId, :medicationName, :medicationType, :stockQuantity, :medicationPrice, COALESCE(:medicationStatus, 'Active'), GETDATE(), GETDATE())
+            INSERT INTO Medication(medicationHospitalId, medicationName, medicationType, stockQuantity, medicationPrice, medicationStatus, medicationCreatedAt, medicationUpdatedAt)
+            VALUES (:medicationHospitalId, :medicationName, :medicationType, :stockQuantity, :medicationPrice, COALESCE(:medicationStatus, 'Active'), GETDATE(), GETDATE())
             """;
 
     public static final String GET_ALL_MEDICATIONS = "SELECT * FROM Medication WHERE medicationStatus == 'Active'";
@@ -12,7 +12,7 @@ public class MedicationQuery {
 
     public static final String UPDATE_MEDICATION_BY_ID = """
             UPDATE Medication
-            SET hospitalId = :hospitalId,
+            SET medicationHospitalId = :medicationHospitalId,
                 medicationName = :medicationName,
                 medicationType = :medicationType,
                 stockQuantity = :stockQuantity,
@@ -29,7 +29,15 @@ public class MedicationQuery {
             WHERE medicationId = :medicationId
             """;
 
-    public static final String GET_MEDICATION_BY_HOSPITAL_ID = "SELECT * FROM Medication WHERE hospitalId = :hospitalId AND medicationStatus = 'Active'";
+    public static final String GET_MEDICATION_BY_HOSPITAL_ID = "SELECT * FROM Medication WHERE medicationHospitalId = :medicationHospitalId AND medicationStatus = 'Active'";
 
-    public static final String GET_MEDICATION_BY_TYPE = "SELECT * FROM Medication WHERE medicationType = :medicationType AND hospitalId = :hospitalId  AND medicationStatus = 'Active'";
+    public static final String GET_MEDICATION_BY_TYPE = "SELECT * FROM Medication WHERE medicationType = :medicationType AND medicationHospitalId = :medicationHospitalId  AND medicationStatus = 'Active'";
+
+    public static final String UPDATE_STOCK_QUANTITY = """
+    UPDATE Medication
+    SET stockQuantity = :stockQuantity,
+        medicationUpdatedAt = GETDATE()
+    WHERE medicationId = :medicationId
+""";
+
 }

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Builder
@@ -15,8 +14,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class Sale {
     private int saleId;
-    private int medicationId;
-    private int patientId; // Nullable
+    private int saleMedicationId;
+    private int salePatientId; // Nullable
     private int saleQuantity;
     private double saleTotalPrice;
     private LocalDate saleDate;

@@ -8,7 +8,7 @@ import lombok.Data;
 public class CreateEquipmentRequest {
 
     @NotNull
-    private int hospitalId;
+    private int equipmentHospitalId;
 
     @NotBlank
     private String equipmentName;
